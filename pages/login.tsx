@@ -14,6 +14,11 @@ import {
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
+export interface UserLogin {
+  username: string;
+  password: string;
+}
+
 const Login: FC<UserLogin> = () => {
   const {
     register,
