@@ -1,7 +1,5 @@
-import { FC } from 'react'
+import { FC } from 'react';
 
-const Layout: FC = ({ children }) => (
-  <div>This layout is reusable. {children}</div>
-)
+const Layout: FC = ({ children }) => <div>This layout is reusable. {children}</div>;
 
-export default Layout
+export default Layout;
