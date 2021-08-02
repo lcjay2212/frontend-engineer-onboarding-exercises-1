@@ -14,11 +14,6 @@ import {
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-export interface UserLogin {
-  username: string;
-  password: string;
-}
-
 const Login: FC<UserLogin> = () => {
   const {
     register,
@@ -26,8 +21,10 @@ const Login: FC<UserLogin> = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (val) => {
-    console.log(val);
+  //todo
+  const onSubmit = (): // val: FieldValues
+  void => {
+    //
   };
 
   return (
