@@ -1,6 +1,6 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
-import Footer from '@components/Footer';
-import Navbar from '@components/Navbar';
+import Footer from '@components/Footer/Footer';
+import Navbar from '@components/Navbar/Navbar';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';

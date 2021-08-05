@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import List from 'components/ProductLists';
+import List from '@components/Products/ProductLists';
 import { FC } from 'react';
 
 export interface ProductDataProps {

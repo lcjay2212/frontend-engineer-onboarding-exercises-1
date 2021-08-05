@@ -15,9 +15,9 @@ import {
   Text,
 } from '@chakra-ui/react';
 import useUser, { UserLogInProps } from 'hooks/useUser';
-import Link from 'next/link';
 import { FC } from 'react';
 import { HiOutlineBell } from 'react-icons/hi';
+import MenuLink from './MenuLinks';
 
 const Tab: FC = ({ children }) => (
   <ChackraTab
@@ -31,10 +31,6 @@ const Tab: FC = ({ children }) => (
   >
     {children}
   </ChackraTab>
-);
-
-const MenuLink: FC<{ title: string }> = ({ title }) => (
-  <Link href={title.toLowerCase() === 'products' ? '/' : `/${title.toLowerCase().replace(' ', '')}`}>{title}</Link>
 );
 
 const Navbar: FC = () => {

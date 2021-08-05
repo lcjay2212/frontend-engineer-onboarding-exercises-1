@@ -1,11 +1,11 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, Flex, Grid, Heading } from '@chakra-ui/react';
-import Card from 'components/ProductsCard';
+import Pagination from '@components/Pagination';
 import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { ProductDataProps } from 'pages';
 import { FC } from 'react';
-import Pagination from './Pagination';
+import Card from './ProductsCard';
 
 const templateColumns = {
   base: 'repeat(1, 1fr)',
