@@ -6,7 +6,22 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { RiShoppingCartFill } from 'react-icons/ri';
 
-const ProductDetails: FC = () => {
+export interface ProductDataProps {
+  id: string;
+  image: string;
+  title: string;
+  content: string;
+}
+
+const ProductDetails: FC<ProductDataProps> = () => {
+  const data: ProductDataProps = {
+    id: '1',
+    image: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
+    title: 'ReactJS',
+    content:
+      "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  };
+
   const { onClose, isOpen, onOpen } = useDisclosure();
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
@@ -26,21 +41,15 @@ const ProductDetails: FC = () => {
         </Text>
       </Flex>
       <Flex flex={{ base: 1 }}>
-        <Image
-          h="18.75rem"
-          alt=""
-          w="24.5625rem"
-          borderRadius="lg"
-          src="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
-        />
+        <Image h="18.75rem" alt="" w="24.5625rem" borderRadius="lg" src={data.image} />
         <Box>
           <Flex justifyContent="space-between">
             <Heading fontWeight="bold" fontSize="1.875rem" lineHeight="3rem" color="#2D3748" pl="1.25rem" pb="1.25rem">
-              React JS
+              {data.title}
             </Heading>
             {!isLoggedIn && (
               <Stack flex={{ base: 1, md: 0 }} justifyContent="flex-end" direction={'row'} spacing={2} pb="1.3125rem">
-                <Link href="/edit/id" passHref>
+                <Link href={`/edit/${data.id}`} passHref>
                   <IconButton
                     aria-label="notification"
                     color="#374151"
@@ -57,17 +66,12 @@ const ProductDetails: FC = () => {
                   w="3rem"
                   icon={<DeleteIcon fontSize="1.25rem" />}
                 />
-                {/* <Modal /> */}
                 <DeleteModal onClose={onClose} isOpen={isOpen} />
               </Stack>
             )}
           </Flex>
           <Text pl="1.4375rem" color="#374151" fontSize="1rem" lineHeight="1.25rem">
-            Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a
-            galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but
-            also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-            publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            {data.content}
           </Text>
         </Box>
       </Flex>
