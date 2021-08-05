@@ -18,7 +18,6 @@ import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { FC } from 'react';
 import { HiOutlineBell } from 'react-icons/hi';
-import shallow from 'zustand/shallow';
 
 const Tab: FC = ({ children }) => (
   <ChackraTab
@@ -35,12 +34,9 @@ const Tab: FC = ({ children }) => (
 );
 
 const Navbar: FC = () => {
-  const { isLoggedIn } = useUser(
-    (state: UserLogInProps) => ({
-      isLoggedIn: state.isLoggedIn,
-    }),
-    shallow
-  );
+  const { isLoggedIn } = useUser((state: UserLogInProps) => ({
+    isLoggedIn: state.isLoggedIn,
+  }));
 
   return (
     <Box px={112} h="4rem" maxW="90rem" margin="auto">
