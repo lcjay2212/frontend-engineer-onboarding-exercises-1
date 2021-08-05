@@ -5,6 +5,7 @@ import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { ProductDataProps } from 'pages';
 import { FC } from 'react';
+import Pagination from './Pagination';
 
 const templateColumns = {
   base: 'repeat(1, 1fr)',
@@ -45,6 +46,7 @@ const ProductLists: FC<{ data: ProductDataProps[] }> = ({ data }) => {
         {data.length && data.map((q: ProductDataProps, i: number) => <Card key={i} data={q} />)}
       </Grid>
       <Divider mt="2.5rem" border={'1px solid #E2E8F0'} />
+      <Pagination />
     </Box>
   );
 };
