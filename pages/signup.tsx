@@ -10,8 +10,10 @@ import {
   Input,
   Stack,
 } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { SignupFormValidation } from 'validation/validation';
 interface SignupFromProps {
   firstName: string;
   lastName: string;
@@ -20,12 +22,14 @@ interface SignupFromProps {
   confirmPassword: string;
 }
 
-const Signup: FC<SignupFromProps> = () => {
+const Signup: FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<SignupFromProps>({
+    resolver: yupResolver(SignupFormValidation),
+  });
 
   //todo
   const onSubmit = (): //   value: FieldValues
@@ -46,73 +50,38 @@ const Signup: FC<SignupFromProps> = () => {
             </Box>
             <Stack color="#2D3748" fontSize="1rem" fontWeight={500} lineHeight="1.5rem" pos="relative">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl id="first-name" isInvalid={errors.firstName}>
+                <FormControl id="first-name" isInvalid={!!errors.firstName}>
                   <FormLabel pt="2.5rem">First name</FormLabel>
-                  <Input
-                    type="text"
-                    placeholder="Enter first name"
-                    {...register('firstName', {
-                      required: 'Firstname is required!',
-                      maxLength: 20,
-                    })}
-                  />
+                  <Input type="text" placeholder="Enter first name" {...register('firstName')} />
                   <FormErrorMessage pos="absolute" top="6.40rem">
                     {errors.firstName?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl id="last-name" isInvalid={errors.lastName}>
+                <FormControl id="last-name" isInvalid={!!errors.lastName}>
                   <FormLabel pt="1.25rem">Last name</FormLabel>
-                  <Input
-                    type="text"
-                    placeholder="Enter last name"
-                    {...register('lastName', {
-                      required: 'Lastname is required!',
-                      maxLength: 20,
-                    })}
-                  />
+                  <Input type="text" placeholder="Enter last name" {...register('lastName')} />
                   <FormErrorMessage pos="absolute" top="5.12rem">
                     {errors.lastName?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl id="email" isInvalid={errors.email}>
+                <FormControl id="email" isInvalid={!!errors.email}>
                   <FormLabel pt="1.25rem">Email</FormLabel>
-                  <Input
-                    type="email"
-                    placeholder="email@example.com"
-                    {...register('email', {
-                      required: 'Email is required!',
-                      maxLength: 20,
-                    })}
-                  />
+                  <Input type="email" placeholder="email@example.com" {...register('email')} />
                   <FormErrorMessage pos="absolute" top="5.12rem">
                     {errors.email?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl id="password" isInvalid={errors.password}>
+                <FormControl id="password" isInvalid={!!errors.password}>
                   <FormLabel pt="1.25rem">Password</FormLabel>
-                  <Input
-                    type="password"
-                    placeholder="Enter password"
-                    {...register('password', {
-                      required: 'Password is required!',
-                      maxLength: 20,
-                    })}
-                  />
+                  <Input type="password" placeholder="Enter password" {...register('password')} />
                   <FormErrorMessage pos="absolute" top="5.12rem">
                     {errors.password?.message}
                   </FormErrorMessage>
                 </FormControl>
 
-                <FormControl id="confirmPassword" isInvalid={errors.confirmPassword}>
+                <FormControl id="confirmPassword" isInvalid={!!errors.confirmPassword}>
                   <FormLabel pt="1.25rem">Confirm Password</FormLabel>
-                  <Input
-                    type="password"
-                    placeholder="Confirm password"
-                    {...register('confirmPassword', {
-                      required: 'Confirm password is required!',
-                      maxLength: 20,
-                    })}
-                  />
+                  <Input type="password" placeholder="Confirm password" {...register('confirmPassword')} />
                   <FormErrorMessage pos="absolute" top="5.12rem">
                     {errors.confirmPassword?.message}
                   </FormErrorMessage>
