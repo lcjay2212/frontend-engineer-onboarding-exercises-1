@@ -26,11 +26,15 @@ const Tab: FC = ({ children }) => (
       borderColor: '#6366F1',
       h: '3rem',
       ml: '1.780625rem',
-      borderBottom: ' solid #6366F1',
+      borderBottom: 'solid #6366F1',
     }}
   >
     {children}
   </ChackraTab>
+);
+
+const MenuLink: FC<{ title: string }> = ({ title }) => (
+  <Link href={title.toLowerCase() === 'products' ? '/' : `/${title.toLowerCase().replace(' ', '')}`}>{title}</Link>
 );
 
 const Navbar: FC = () => {
@@ -57,7 +61,7 @@ const Navbar: FC = () => {
           <Tabs variant="unstyled">
             <Tab>
               <Text h="1.75rem" alignSelf="center" fontSize={14} fontWeight={'500'} color="#6B7280">
-                <Link href="/">Products</Link>
+                <MenuLink title="Products" />
               </Text>
             </Tab>
           </Tabs>
@@ -66,7 +70,7 @@ const Navbar: FC = () => {
           <>
             <Stack flex={{ base: 1, md: 0 }} justify={'flex-end'} direction={'row'} spacing={4} alignSelf="center">
               <Button fontSize="1rem" lineHeight="1.5rem" fontWeight={600}>
-                <Link href="/login">Log in</Link>
+                <MenuLink title="Log in" />
               </Button>
               <Button
                 display={{ base: 'none', md: 'inline-flex' }}
@@ -76,13 +80,12 @@ const Navbar: FC = () => {
                 bg="#805AD5"
                 lineHeight="1.5rem"
               >
-                <Link href="/signup">Sign Up</Link>
+                <MenuLink title="Sign up" />
               </Button>
             </Stack>
           </>
         ) : (
           <>
-            {/* <Stack alignSelf="center" direction={"row"} spacing={2}> */}
             <IconButton
               alignSelf="center"
               pr="1rem"
@@ -119,7 +122,6 @@ const Navbar: FC = () => {
                 </MenuGroup>
               </MenuList>
             </Menu>
-            {/* </Stack> */}
           </>
         )}
       </Flex>

@@ -8,10 +8,10 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
   <ChakraProvider>
     <Navbar />
     <Box bg="#F7FAFC" borderTop="1px" borderColor="gray.300">
-      <Box margin="auto" maxW="90rem" h="52rem">
+      <Box margin="auto" maxW="90rem" h="100%" minH="52rem">
         <Component {...pageProps} />
-        <Footer />
       </Box>
+      <Footer />
     </Box>
   </ChakraProvider>
 );
