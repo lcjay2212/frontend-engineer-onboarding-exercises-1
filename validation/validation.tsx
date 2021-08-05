@@ -22,7 +22,5 @@ export const AddProductValidation = yup.object().shape({
   file: yup
     .mixed()
     .required('File is required')
-    .test('size', 'The file is too large', (value) => {
-      return value && value[0].size < 10485760;
-    }),
+    .test('size', 'The file is too large', (value) => value[0].size < 1048576),
 });
