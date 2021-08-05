@@ -11,7 +11,9 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
+import DeleteModal from 'components/DeleteModal';
 import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { ProductDataProps } from 'pages';
@@ -20,6 +22,7 @@ import { FaEllipsisV } from 'react-icons/fa';
 import { RiShoppingCartFill } from 'react-icons/ri';
 
 const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
+  const { onClose, onOpen, isOpen } = useDisclosure();
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
   }));
@@ -67,9 +70,9 @@ const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
                 <Link href="/" passHref>
                   <MenuItem>Edit</MenuItem>
                 </Link>
-                <Link href="/" passHref>
-                  <MenuItem>Delete</MenuItem>
-                </Link>
+                <MenuItem onClick={onOpen}>Delete</MenuItem>
+
+                <DeleteModal onClose={onClose} isOpen={isOpen} />
               </MenuList>
             </Menu>
           </Box>
