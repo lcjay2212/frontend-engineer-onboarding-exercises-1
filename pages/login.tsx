@@ -11,20 +11,24 @@ import {
   Link,
   Stack,
 } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { UserLogInValidation } from 'validation/validation';
 
-export interface UserLogin {
-  username: string;
+export interface UserLoginProps {
+  email: string;
   password: string;
 }
 
-const Login: FC<UserLogin> = () => {
+const Login: FC<UserLoginProps> = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<UserLoginProps>({
+    resolver: yupResolver(UserLogInValidation),
+  });
 
   //todo
   const onSubmit = (): // val: FieldValues
@@ -45,31 +49,16 @@ const Login: FC<UserLogin> = () => {
             </Box>
             <Stack color="#2D3748" fontSize="1rem" fontWeight={500} lineHeight="1.5rem" pos="relative">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl id="email" isInvalid={errors.email}>
+                <FormControl id="email" isInvalid={!!errors.email}>
                   <FormLabel pt="2.50rem">Email</FormLabel>
-                  <Input
-                    type="email"
-                    mb="20px"
-                    placeholder="email@example.com"
-                    {...register('email', {
-                      required: 'Email is required!',
-                    })}
-                  />
+                  <Input type="email" mb="20px" placeholder="email@example.com" {...register('email')} />
                   <FormErrorMessage pos="absolute" top="6.50rem">
                     {errors.email?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl id="password" isInvalid={errors.password}>
+                <FormControl id="password" isInvalid={!!errors.password}>
                   <FormLabel>Password</FormLabel>
-                  <Input
-                    type="password"
-                    placeholder="********"
-                    {...register('password', {
-                      required: 'Password is required!',
-                      maxLength: 20,
-                      minLength: 8,
-                    })}
-                  />
+                  <Input type="password" placeholder="********" {...register('password')} />
                   <FormErrorMessage pos="absolute" top="4rem">
                     {errors.password?.message}
                   </FormErrorMessage>
