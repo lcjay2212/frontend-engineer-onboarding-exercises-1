@@ -38,11 +38,11 @@ const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
       h="26.5rem"
       bg={useColorModeValue('white', 'gray.900')}
       boxShadow={'2xl'}
-      rounded={'xl'}
+      rounded="xl"
       p={6}
-      overflow={'hidden'}
+      overflow="hidden"
     >
-      <Box bg={'gray.100'} mt={-6} mx={-6} mb={6} pos={'relative'}>
+      <Box mt={-6} mx={-6} mb={6} pos="relative">
         <Link
           href={{
             pathname: `/${data.id}`,
@@ -71,7 +71,6 @@ const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
                   <MenuItem>Edit</MenuItem>
                 </Link>
                 <MenuItem onClick={onOpen}>Delete</MenuItem>
-
                 <DeleteModal onClose={onClose} isOpen={isOpen} />
               </MenuList>
             </Menu>
