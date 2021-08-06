@@ -127,7 +127,6 @@ const Home: FC = () => {
   return (
     <Box>
       <List data={data} />
-      {/* <Footer /> */}
     </Box>
   );
 };

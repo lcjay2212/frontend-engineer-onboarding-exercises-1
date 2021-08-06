@@ -67,7 +67,7 @@ const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
             <Menu>
               <MenuButton as={IconButton} icon={<FaEllipsisV />} borderRadius="50%" />
               <MenuList fontWeight={400} fontSize="0.875rem" lineHeight="1.25rem" w="10.375rem" h="5rem">
-                <Link href="/" passHref>
+                <Link href={`/edit/${data.id}`} passHref>
                   <MenuItem>Edit</MenuItem>
                 </Link>
                 <MenuItem onClick={onOpen}>Delete</MenuItem>
