@@ -1,3 +1,4 @@
+import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -11,11 +12,13 @@ import {
   MenuList,
   Stack,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 import useUser, { UserLogInProps } from 'hooks/useUser';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
 import { HiOutlineBell } from 'react-icons/hi';
+import MobileDrawer from './Drawer';
 import Logo from './Logo';
 import MenuLink from './MenuLinks';
 
@@ -36,12 +39,41 @@ const Navbar: FC = () => {
     isLoggedIn: state.isLoggedIn,
   }));
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const path = router.pathname === '/';
 
   return (
     <Box px={112} h="4rem" maxW="90rem" margin="auto">
       <Flex h="4rem" alignSelf="center">
-        <Flex py="17px" flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+        <IconButton
+          alignSelf="center"
+          bg="white"
+          colorScheme="white"
+          color="gray.500"
+          aria-label="Open Menu"
+          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          d={{
+            base: 'flex',
+            sm: 'flex',
+            md: 'none',
+            xl: 'none',
+            lg: 'none',
+          }}
+          onClick={onOpen}
+        />
+        <Flex
+          d={{
+            base: 'none',
+            sm: 'none',
+            md: 'flex',
+            lg: 'flex',
+            xl: 'flex',
+          }}
+          flex={{ base: 1 }}
+          py="17px"
+          justify={{ base: 'center', md: 'start' }}
+        >
+          <MobileDrawer onClose={onClose} isOpen={isOpen} />
           <Logo />
           <Text
             alignSelf="center"
@@ -52,6 +84,7 @@ const Navbar: FC = () => {
             ml="1.780625rem"
             pt="1.4375rem"
             borderBottom={path ? 'solid #6366F1' : ''}
+            onClick={onClose}
           >
             <MenuLink title="Products" />
           </Text>
