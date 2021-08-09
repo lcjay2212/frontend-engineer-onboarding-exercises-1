@@ -41,7 +41,7 @@ const ProductDetails: FC = () => {
 
   return (
     <Box h="52rem" px="7rem" py="9.625rem" maxH="1440px">
-      <BreadCrumbHeaders name={product?.name} />
+      <BreadCrumbHeaders name={product?.name ?? ''} />
       <Grid
         style={useBreakpointValue({
           lg: { gridTemplateColumns: '1fr 2fr' },
