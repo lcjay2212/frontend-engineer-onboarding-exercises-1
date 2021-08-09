@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -12,6 +11,7 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import BreadCrumbHeaders from '@components/BreadCrumb';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -58,17 +58,7 @@ const AddProduct: FC = () => {
 
   return (
     <Box h="48.25rem" px="7rem" pt="9.625rem">
-      <Flex justifyContent="flex-start">
-        <Text fontWeight={500} fontSize="0.875rem" lineHeight="1.25rem" color="#9CA3AF" mb="1.5rem">
-          <Link href="/">Products</Link>
-        </Text>
-        <Text d="flex" pt="3px" px="1.4375rem" mb="1.8125rem" color="#6B7280">
-          <ChevronRightIcon />
-        </Text>
-        <Text fontWeight={500} fontSize="0.875rem" lineHeight="1.25rem" color="#9CA3AF" mb="1.5rem">
-          Add Product
-        </Text>
-      </Flex>
+      <BreadCrumbHeaders name="Add product" />
       <Box h="22.875rem" bg="white" borderRadius="0.5rem" boxShadow="base">
         <Box p="1.875rem">
           <form onSubmit={handleSubmit(onSubmit)}>

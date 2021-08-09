@@ -1,44 +1,39 @@
-import { useQuery } from '@apollo/client';
-import { ChevronRightIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Heading, IconButton, Image, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import BreadCrumbHeaders from '@components/BreadCrumb';
 import DeleteModal from '@components/DeleteModal';
+import { ProductsProps } from 'helper/interface';
 import useUser, { UserLogInProps } from 'hooks/useUser';
-import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
-import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { RiShoppingCartFill } from 'react-icons/ri';
-import { ProductConnection } from 'types/types';
 
 const ProductDetails: FC = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data } = useQuery<{ products: ProductConnection }>(PRODUCT_BY_ID, {
-    variables: {
-      filter: {
-        id: { eq: id },
-      },
-    },
-  });
-  const product = data?.products.edges[0].node;
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const { data } = useQuery<{ products: ProductConnection }>(PRODUCT_BY_ID, {
+  //   variables: {
+  //     filter: {
+  //       id: { eq: id },
+  //     },
+  //   },
+  // });
+  // const product = data?.products.edges[0].node;
   const { onClose, isOpen, onOpen } = useDisclosure();
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
   }));
 
+  const product: ProductsProps = {
+    id: '1',
+    name: 'ReactJS',
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  };
+
   return (
     <Box h="52rem" px="7rem" py="9.625rem" maxH="1440px">
-      <Flex justifyContent="flex-start">
-        <Text fontWeight={500} fontSize="0.875rem" lineHeight="1.25rem" color="#9CA3AF" mb="1.5rem">
-          <Link href="/">Products</Link>
-        </Text>
-        <Text d="flex" pt="3px" px="1.4375rem" mb="1.8125rem" color="#6B7280">
-          <ChevronRightIcon />
-        </Text>
-        <Text fontWeight={500} fontSize="0.875rem" lineHeight="1.25rem" color="#9CA3AF" mb="1.5rem">
-          {product?.name}
-        </Text>
-      </Flex>
+      <BreadCrumbHeaders name={product.name} />
       <Flex flex={{ base: 1 }}>
         <Image
           h="18.75rem"
@@ -50,11 +45,11 @@ const ProductDetails: FC = () => {
         <Box>
           <Flex justifyContent="space-between">
             <Heading fontWeight="bold" fontSize="1.875rem" lineHeight="3rem" color="#2D3748" pl="1.25rem" pb="1.25rem">
-              {product?.name}
+              {product.name}
             </Heading>
             {!isLoggedIn && (
               <Stack flex={{ base: 1, md: 0 }} justifyContent="flex-end" direction={'row'} spacing={2} pb="1.3125rem">
-                <Link href={`/edit/${id}`} passHref>
+                <Link href={`/edit/${product.id}`} passHref>
                   <IconButton
                     aria-label="notification"
                     color="#374151"
@@ -76,7 +71,7 @@ const ProductDetails: FC = () => {
             )}
           </Flex>
           <Text pl="1.4375rem" color="#374151" fontSize="1rem" lineHeight="1.25rem">
-            {product?.description}
+            {product.description}
           </Text>
         </Box>
       </Flex>
