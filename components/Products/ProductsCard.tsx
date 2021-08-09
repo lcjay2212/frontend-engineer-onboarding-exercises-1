@@ -44,15 +44,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
       key={data.id}
     >
       <Box mt={-6} mx={-6} mb={6} pos="relative">
-        <Link
-          href={{
-            pathname: `/${data.id}`,
-            query: {
-              imgUrl: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
-            },
-          }}
-          passHref
-        >
+        <Link href={`/products/${data.id}`} passHref>
           <Image
             alt="cover-image"
             src="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
@@ -80,15 +72,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
       </Box>
 
       <Stack>
-        <Link
-          href={{
-            pathname: `/${data.id}`,
-            query: {
-              imgUrl: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
-            },
-          }}
-          passHref
-        >
+        <Link href={`/products/${data.id}`} passHref>
           <Box>
             <Text color="#000000" fontWeight="bold" fontSize="1.125rem" h="1.75rem" w="15.625rem">
               {data.name}
