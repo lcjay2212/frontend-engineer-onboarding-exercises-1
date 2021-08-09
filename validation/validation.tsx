@@ -6,14 +6,11 @@ export const UserLogInValidation = yup.object().shape({
 });
 
 export const SignupFormValidation = yup.object().shape({
-  firstName: yup.string().required('First name is required!'),
-  lastName: yup.string().max(20).required('Last name is required!'),
-  email: yup.string().required('Email is required!'),
+  firstname: yup.string().required('First name is required!'),
+  lastname: yup.string().max(20).required('Last name is required!'),
+  emailAddress: yup.string().required('Email is required!'),
   password: yup.string().max(20).min(8).required('Password is required!'),
-  confirmPassword: yup
-    .string()
-    .required('Confirm password is required!')
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match'),
 });
 
 export const AddProductValidation = yup.object().shape({

@@ -1,10 +1,10 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
+  Avatar,
   Box,
   Button,
   Flex,
   IconButton,
-  Image,
   Menu,
   MenuButton,
   MenuGroup,
@@ -114,9 +114,9 @@ const Navbar: FC = () => {
             />
             <Menu>
               <MenuButton alignSelf="center" as={IconButton} style={menuProfile} colorScheme="white">
-                <Image
-                  alt="profile"
+                <Avatar
                   style={menuProfile}
+                  name="mina"
                   src="https://en.kepoper.com/wp-content/uploads/2021/01/twice-mina-profile-1-wm.jpg"
                 />
               </MenuButton>

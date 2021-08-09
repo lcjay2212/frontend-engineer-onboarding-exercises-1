@@ -9,9 +9,11 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
+        {/* <Provider store={store}> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        {/* </Provider> */}
       </ChakraProvider>
     </ApolloProvider>
   );

@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   Box,
   Button,
@@ -9,17 +10,19 @@ import {
   Heading,
   Input,
   Stack,
+  useToast,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { SIGN_UP } from 'queries/form.queries';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { SignupFormValidation } from 'validation/validation';
 interface SignupFromProps {
-  firstName: string;
-  lastName: string;
-  email: string;
+  firstname: string;
+  lastname: string;
+  emailAddress: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 const SignupForm: FC = () => {
@@ -31,10 +34,30 @@ const SignupForm: FC = () => {
     resolver: yupResolver(SignupFormValidation),
   });
 
-  //todo
-  const onSubmit = (): //   value: FieldValues
-  void => {
-    //
+  const toast = useToast();
+
+  const [signupForm, { loading }] = useMutation(SIGN_UP, {
+    onError: (e) => {
+      toast({
+        status: 'error',
+        position: 'top-right',
+        description: e.message,
+      });
+    },
+    onCompleted: () => {
+      toast({
+        status: 'success',
+        position: 'top-right',
+        description: 'Sign up success!',
+      });
+    },
+  });
+
+  const onSubmit = (val: SignupFromProps): void => {
+    delete val.confirmPassword;
+    signupForm({
+      variables: { input: val },
+    }).catch((err) => err);
   };
 
   return (
@@ -50,25 +73,25 @@ const SignupForm: FC = () => {
             </Box>
             <Stack color="#2D3748" fontSize="1rem" fontWeight={500} lineHeight="1.5rem" pos="relative">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl id="first-name" isInvalid={!!errors.firstName}>
+                <FormControl id="firstname" isInvalid={!!errors.firstname}>
                   <FormLabel pt="2.5rem">First name</FormLabel>
-                  <Input type="text" placeholder="Enter first name" {...register('firstName')} />
+                  <Input type="text" placeholder="Enter first name" {...register('firstname')} />
                   <FormErrorMessage pos="absolute" top="6.40rem">
-                    {errors.firstName?.message}
+                    {errors.firstname?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl id="last-name" isInvalid={!!errors.lastName}>
+                <FormControl id="lastname" isInvalid={!!errors.lastname}>
                   <FormLabel pt="1.25rem">Last name</FormLabel>
-                  <Input type="text" placeholder="Enter last name" {...register('lastName')} />
+                  <Input type="text" placeholder="Enter last name" {...register('lastname')} />
                   <FormErrorMessage pos="absolute" top="5.12rem">
-                    {errors.lastName?.message}
+                    {errors.lastname?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl id="email" isInvalid={!!errors.email}>
+                <FormControl id="emailAddress" isInvalid={!!errors.emailAddress}>
                   <FormLabel pt="1.25rem">Email</FormLabel>
-                  <Input type="email" placeholder="email@example.com" {...register('email')} />
+                  <Input type="email" placeholder="email@example.com" {...register('emailAddress')} />
                   <FormErrorMessage pos="absolute" top="5.12rem">
-                    {errors.email?.message}
+                    {errors.emailAddress?.message}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl id="password" isInvalid={!!errors.password}>
@@ -78,7 +101,6 @@ const SignupForm: FC = () => {
                     {errors.password?.message}
                   </FormErrorMessage>
                 </FormControl>
-
                 <FormControl id="confirmPassword" isInvalid={!!errors.confirmPassword}>
                   <FormLabel pt="1.25rem">Confirm Password</FormLabel>
                   <Input type="password" placeholder="Confirm password" {...register('confirmPassword')} />
@@ -86,7 +108,7 @@ const SignupForm: FC = () => {
                     {errors.confirmPassword?.message}
                   </FormErrorMessage>
                 </FormControl>
-                {/* <Stack mt="2.5rem"> */}
+
                 <Button
                   maxW="33.75rem"
                   w="100%"
@@ -96,10 +118,10 @@ const SignupForm: FC = () => {
                   color="white"
                   colorScheme="purple"
                   type="submit"
+                  isLoading={loading}
                 >
                   Log in
                 </Button>
-                {/* </Stack> */}
               </form>
             </Stack>
           </Box>
