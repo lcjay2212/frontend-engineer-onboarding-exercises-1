@@ -16,7 +16,6 @@ export type Scalars = {
   EmailAddress: any;
 };
 
-
 export type Account = Node & {
   __typename?: 'Account';
   id: Scalars['Binary'];
@@ -37,7 +36,6 @@ export type Authentication = {
   token: Scalars['String'];
 };
 
-
 export type BinaryQueryOperatorInput = {
   eq?: Maybe<Scalars['Binary']>;
   ne?: Maybe<Scalars['Binary']>;
@@ -50,11 +48,9 @@ export type CreateProductInput = {
   description: Scalars['String'];
 };
 
-
 export type DeleteProductInput = {
   id: Scalars['Binary'];
 };
-
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -94,26 +90,21 @@ export type Mutation = {
   deleteProduct: Scalars['Boolean'];
 };
 
-
 export type MutationSignUpArgs = {
   input: SignUpInput;
 };
-
 
 export type MutationAuthenticateArgs = {
   input: AuthenticateInput;
 };
 
-
 export type MutationCreateProductArgs = {
   input: CreateProductInput;
 };
 
-
 export type MutationUpdateProductArgs = {
   input: UpdateProductInput;
 };
-
 
 export type MutationDeleteProductArgs = {
   input: DeleteProductInput;
@@ -172,11 +163,9 @@ export type Query = {
   products: ProductConnection;
 };
 
-
 export type QueryNodeArgs = {
   id: Scalars['Binary'];
 };
-
 
 export type QueryProductsArgs = {
   first?: Maybe<Scalars['Int']>;

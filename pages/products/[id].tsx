@@ -37,7 +37,7 @@ const ProductDetails: FC = () => {
           <ChevronRightIcon />
         </Text>
         <Text fontWeight={500} fontSize="0.875rem" lineHeight="1.25rem" color="#9CA3AF" mb="1.5rem">
-          ReactJS
+          {product?.name}
         </Text>
       </Flex>
       <Flex flex={{ base: 1 }}>
