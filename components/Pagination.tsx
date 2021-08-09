@@ -10,14 +10,16 @@ const buttonStyle = {
 };
 
 const Tab: FC = ({ children }) => (
-  <ChackraTab _selected={{ borderTop: '2px solid #6366F1', color: '#4F46E5' }}>{children}</ChackraTab>
+  <ChackraTab _selected={{ borderTop: '2px solid #6366F1', color: '#4F46E5' }} maxW="2.4375rem">
+    {children}
+  </ChackraTab>
 );
 
 const Pagination: FC = () => {
   return (
     <Flex align="center" justify="space-between" h="3.375rem" textAlign="center" alignSelf="center">
       <Button style={buttonStyle} leftIcon={<Icon as={HiArrowNarrowLeft} />} variant="link">
-        Preview
+        Previous
       </Button>
       <Tabs variant="unstyled">
         <TabList h="3.375rem" style={buttonStyle}>

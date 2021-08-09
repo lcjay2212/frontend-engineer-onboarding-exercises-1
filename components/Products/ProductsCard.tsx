@@ -14,14 +14,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import DeleteModal from 'components/DeleteModal';
+import { ProductsProps } from 'helper/interface';
 import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
-import { ProductDataProps } from 'pages';
 import { FC } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { RiShoppingCartFill } from 'react-icons/ri';
 
-const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
+const Card: FC<{ data: ProductsProps }> = ({ data }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
@@ -41,20 +41,21 @@ const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
       rounded="xl"
       p={6}
       overflow="hidden"
+      key={data.id}
     >
       <Box mt={-6} mx={-6} mb={6} pos="relative">
         <Link
           href={{
             pathname: `/${data.id}`,
             query: {
-              imgUrl: data.image,
+              imgUrl: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
             },
           }}
           passHref
         >
           <Image
             alt="cover-image"
-            src={data.image}
+            src="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
             w="100%"
             h="10.625rem"
             objectPosition="center center"
@@ -83,17 +84,17 @@ const Card: FC<{ data: ProductDataProps }> = ({ data }) => {
           href={{
             pathname: `/${data.id}`,
             query: {
-              imgUrl: data.image,
+              imgUrl: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
             },
           }}
           passHref
         >
           <Box>
             <Text color="#000000" fontWeight="bold" fontSize="1.125rem" h="1.75rem" w="15.625rem">
-              {data.title}
+              {data.name}
             </Text>
             <Text fontSize="1rem" h="7.5rem" w="15.625rem" color="#374151" lineHeight="1.5rem">
-              {data.content.substr(0, 100)}
+              {data.description.substr(0, 100)}
             </Text>
           </Box>
         </Link>

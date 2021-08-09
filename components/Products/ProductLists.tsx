@@ -1,11 +1,13 @@
+import { useQuery } from '@apollo/client';
 import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, Flex, Grid, Heading, Skeleton, Stack } from '@chakra-ui/react';
 import Pagination from '@components/Pagination';
-import Card from '@components/Products/ProductsCard';
+import Card from 'components/Products/ProductsCard';
+import { ProductsProps } from 'helper/interface';
 import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
-import { ProductDataProps } from 'pages';
-import { FC, useState } from 'react';
+import { PRODUCTS } from 'queries/products.queries';
+import { FC } from 'react';
 
 const templateColumns = {
   base: 'repeat(1, 1fr)',
@@ -16,12 +18,14 @@ const templateColumns = {
   '2xl': 'repeat(4, 1fr)',
 };
 
-const ProductLists: FC<{ data: ProductDataProps[] }> = ({ data }) => {
+const ProductLists: FC = () => {
+  const { data, loading } = useQuery(PRODUCTS);
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
   }));
 
-  const [isLoading] = useState<boolean>(false);
+  const productsLists = data?.products?.edges.map((q) => q.node);
+
   return (
     <Box px="6.25rem" py="5.625rem" bg="#F7FAFC">
       <Flex justifyContent="space-between" pb="8px">
@@ -45,7 +49,7 @@ const ProductLists: FC<{ data: ProductDataProps[] }> = ({ data }) => {
       </Flex>
 
       <Divider mb="3.125rem" border={'1px solid #E2E8F0'} />
-      {isLoading ? (
+      {loading ? (
         <Grid templateColumns={templateColumns} gap={6}>
           {Array.from({ length: 20 }).map((_, i) => (
             <Stack key={i}>
@@ -56,7 +60,7 @@ const ProductLists: FC<{ data: ProductDataProps[] }> = ({ data }) => {
       ) : (
         <>
           <Grid templateColumns={templateColumns} gap="1.25rem" justifyItems="center">
-            {data.length && data.map((q: ProductDataProps, i: number) => <Card key={i} data={q} />)}
+            {productsLists?.length && productsLists.map((q: ProductsProps, i: string) => <Card key={i} data={q} />)}
           </Grid>
         </>
       )}
