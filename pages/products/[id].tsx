@@ -8,11 +8,12 @@ import Link from 'next/link';
 import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { RiShoppingCartFill } from 'react-icons/ri';
+import { ProductConnection } from 'types/types';
 
 const ProductDetails: FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data } = useQuery(PRODUCT_BY_ID, {
+  const { data } = useQuery<{ products: ProductConnection }>(PRODUCT_BY_ID, {
     variables: {
       filter: {
         id: { eq: id },
@@ -54,7 +55,7 @@ const ProductDetails: FC = () => {
             </Heading>
             {!isLoggedIn && (
               <Stack flex={{ base: 1, md: 0 }} justifyContent="flex-end" direction={'row'} spacing={2} pb="1.3125rem">
-                <Link href={`/edit/${data.id}`} passHref>
+                <Link href={`/edit/${id}`} passHref>
                   <IconButton
                     aria-label="notification"
                     color="#374151"

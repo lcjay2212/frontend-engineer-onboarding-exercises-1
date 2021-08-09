@@ -1,0 +1,5 @@
+schema: https://frontend-engineer-onboarding-api-thxaa.ondigitalocean.app/graphql
+generates:
+  ./types/types.d.ts:
+    plugins:
+      - typescript
