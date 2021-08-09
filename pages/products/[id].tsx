@@ -1,26 +1,25 @@
+import { useQuery } from '@apollo/client';
 import { ChevronRightIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Heading, IconButton, Image, Stack, Text, useDisclosure } from '@chakra-ui/react';
 import DeleteModal from '@components/DeleteModal';
 import useUser, { UserLogInProps } from 'hooks/useUser';
+import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
+import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { RiShoppingCartFill } from 'react-icons/ri';
 
-export interface ProductDataProps {
-  id: string;
-  image: string;
-  title: string;
-  content: string;
-}
-
-const ProductDetails: FC<ProductDataProps> = () => {
-  const data: ProductDataProps = {
-    id: '1',
-    image: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
-    title: 'ReactJS',
-    content:
-      "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  };
+const ProductDetails: FC = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data } = useQuery(PRODUCT_BY_ID, {
+    variables: {
+      filter: {
+        id: { eq: id },
+      },
+    },
+  });
+  const product = data?.products.edges[0].node;
 
   const { onClose, isOpen, onOpen } = useDisclosure();
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
@@ -41,11 +40,17 @@ const ProductDetails: FC<ProductDataProps> = () => {
         </Text>
       </Flex>
       <Flex flex={{ base: 1 }}>
-        <Image h="18.75rem" alt="" w="24.5625rem" borderRadius="lg" src={data.image} />
+        <Image
+          h="18.75rem"
+          alt=""
+          w="24.5625rem"
+          borderRadius="lg"
+          src="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
+        />
         <Box>
           <Flex justifyContent="space-between">
             <Heading fontWeight="bold" fontSize="1.875rem" lineHeight="3rem" color="#2D3748" pl="1.25rem" pb="1.25rem">
-              {data.title}
+              {product?.name}
             </Heading>
             {!isLoggedIn && (
               <Stack flex={{ base: 1, md: 0 }} justifyContent="flex-end" direction={'row'} spacing={2} pb="1.3125rem">
@@ -71,7 +76,7 @@ const ProductDetails: FC<ProductDataProps> = () => {
             )}
           </Flex>
           <Text pl="1.4375rem" color="#374151" fontSize="1rem" lineHeight="1.25rem">
-            {data.content}
+            {product?.description}
           </Text>
         </Box>
       </Flex>
