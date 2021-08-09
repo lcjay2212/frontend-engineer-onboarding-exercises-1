@@ -8,6 +8,7 @@ import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
+import { ProductConnection } from 'types/types';
 
 const templateColumns = {
   base: 'repeat(1, 1fr)',
@@ -19,12 +20,12 @@ const templateColumns = {
 };
 
 const ProductLists: FC = () => {
-  const { data, loading } = useQuery(PRODUCTS);
+  const { data, loading } = useQuery<{ products: ProductConnection }>(PRODUCTS);
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
   }));
 
-  const productsLists = data?.products?.edges.map((q) => q.node);
+  const productsLists = data?.products.edges.map((q) => q.node);
 
   return (
     <Box px="6.25rem" py="5.625rem" bg="#F7FAFC">
@@ -60,7 +61,7 @@ const ProductLists: FC = () => {
       ) : (
         <>
           <Grid templateColumns={templateColumns} gap="1.25rem" justifyItems="center">
-            {productsLists?.length && productsLists.map((q: ProductsProps, i: string) => <Card key={i} data={q} />)}
+            {productsLists?.length && productsLists.map((q: ProductsProps, i: number) => <Card key={i} data={q} />)}
           </Grid>
         </>
       )}

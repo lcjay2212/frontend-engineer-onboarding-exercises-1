@@ -21,7 +21,6 @@ const ProductDetails: FC = () => {
     },
   });
   const product = data?.products.edges[0].node;
-
   const { onClose, isOpen, onOpen } = useDisclosure();
   const { isLoggedIn } = useUser((state: UserLogInProps) => ({
     isLoggedIn: state.isLoggedIn,
