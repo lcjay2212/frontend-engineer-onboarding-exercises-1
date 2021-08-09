@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Input, Stack, Text, Textarea } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Icon, Input, Stack, Text, Textarea, useBreakpointValue } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -29,12 +29,17 @@ const EditProductID: FC = () => {
   };
   return (
     <>
-      <Box px="7rem" pt="9.625rem" h="48.25rem">
+      <Box px="7rem" py="9.625rem">
         <BreadCrumbHeaders name="Edit product" />
-        <Box h="22.875rem" bg="white" borderRadius="0.5rem" boxShadow="base">
+        <Box h={{ base: '40rem', lg: '22.875rem' }} bg="white" borderRadius="0.5rem" boxShadow="base">
           <Box p="1.875rem">
-            <Flex>
-              <Box pr="2.5rem">
+            <Grid
+              style={useBreakpointValue({
+                lg: { gridTemplateColumns: '1fr 2fr' },
+                md: { gridTemplateRows: '1fr 1fr' },
+              })}
+            >
+              <Flex flexDirection="column" pr="2.5rem">
                 <Text style={textStyle} pb="0.5rem">
                   Photo
                 </Text>
@@ -80,8 +85,9 @@ const EditProductID: FC = () => {
                     accept="image/x-png,image/gif,image/jpeg"
                   />
                 </Box>
-              </Box>
-              <Box w="51.5625rem">
+              </Flex>
+
+              <Flex flexDirection="column">
                 <Text style={textStyle} pb="0.5rem" id="nice">
                   Title
                 </Text>
@@ -98,8 +104,8 @@ const EditProductID: FC = () => {
                     Submit
                   </Button>
                 </Stack>
-              </Box>
-            </Flex>
+              </Flex>
+            </Grid>
           </Box>
         </Box>
       </Box>

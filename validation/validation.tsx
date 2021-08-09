@@ -10,7 +10,7 @@ export const SignupFormValidation = yup.object().shape({
   lastname: yup.string().max(20).required('Last name is required!'),
   emailAddress: yup.string().required('Email is required!'),
   password: yup.string().max(20).min(8).required('Password is required!'),
-  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match'),
+  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 export const AddProductValidation = yup.object().shape({

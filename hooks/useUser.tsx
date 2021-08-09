@@ -6,7 +6,7 @@ export interface UserLogInProps {
 }
 
 const useUser = create(() => ({
-  isLoggedIn: true,
+  isLoggedIn: false,
 }));
 
 export default useUser;
