@@ -1,28 +1,59 @@
-import { Box, Button, Divider, Flex, FormControl, FormErrorMessage, Heading, Link, Stack } from '@chakra-ui/react';
-import FormComponent from '@components/Form';
+import { useMutation } from '@apollo/client';
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+  Link,
+  Stack,
+  useToast,
+} from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LOG_IN } from 'queries/form.mutation';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { AuthenticateInput } from 'types/types';
 import { UserLogInValidation } from 'validation/validation';
 
-export interface UserLoginProps {
-  email: string;
-  password: string;
-}
+// interface LoginSuccess {
+//   authenticate: { token: string };
+// }
 
 const LoginForm: FC = () => {
   const {
+    register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserLoginProps>({
+  } = useForm<AuthenticateInput>({
     resolver: yupResolver(UserLogInValidation),
   });
 
-  //todo
-  const onSubmit = (): // val: FieldValues
-  void => {
-    //
-  };
+  const toast = useToast();
+
+  const [loginUser, { loading }] = useMutation(LOG_IN, {
+    onCompleted: () => {
+      // console.log(e.authenticate.token);
+      toast({
+        duration: 1000,
+        status: 'success',
+        position: 'top-right',
+        description: 'Log in success',
+      });
+    },
+    onError: (e) => {
+      toast({
+        duration: 1000,
+        status: 'error',
+        position: 'top-right',
+        description: e.message,
+      });
+    },
+  });
 
   return (
     <Box h="52rem">
@@ -36,16 +67,22 @@ const LoginForm: FC = () => {
               </Heading>
             </Box>
             <Stack color="#2D3748" fontSize="1rem" fontWeight={500} lineHeight="1.5rem" pos="relative">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl id="email" isInvalid={!!errors.email}>
-                  <FormComponent name="email" placeholder="email@example.com" label="Email" type="email" />
-                  <FormErrorMessage pos="absolute" top="6.50rem">
-                    {errors.email?.message}
+              <form
+                onSubmit={handleSubmit((val: AuthenticateInput): void => {
+                  loginUser({ variables: { input: val } }).catch((err) => err);
+                })}
+              >
+                <FormControl id="email" isInvalid={!!errors.emailAddress}>
+                  <FormLabel pt="2.5rem">Email</FormLabel>
+                  <Input type="email" placeholder="email@example.com" {...register('emailAddress')} />
+                  <FormErrorMessage pos="absolute" top="6.5rem">
+                    {errors.emailAddress?.message}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl id="password" isInvalid={!!errors.password}>
-                  <FormComponent name="password" placeholder="Enter password" label="Password" type="password" />
-                  <FormErrorMessage pos="absolute" top="4rem">
+                  <FormLabel pt="1.5rem">Password</FormLabel>
+                  <Input type="password" placeholder="Enter password" {...register('password')} />
+                  <FormErrorMessage pos="absolute" top="5.50rem">
                     {errors.password?.message}
                   </FormErrorMessage>
                 </FormControl>
@@ -55,7 +92,14 @@ const LoginForm: FC = () => {
                       Forgot password
                     </Link>
                   </Flex>
-                  <Button fontSize="1.125rem" bg="#805AD5" color="white" colorScheme="purple" type="submit">
+                  <Button
+                    fontSize="1.125rem"
+                    bg="#805AD5"
+                    color="white"
+                    colorScheme="purple"
+                    type="submit"
+                    isLoading={loading}
+                  >
                     Log in
                   </Button>
                 </Stack>

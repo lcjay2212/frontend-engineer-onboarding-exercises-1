@@ -13,7 +13,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SIGN_UP } from 'queries/form.queries';
+import { SIGN_UP } from 'queries/form.mutation';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { SignupFormValidation } from 'validation/validation';
@@ -53,13 +53,6 @@ const SignupForm: FC = () => {
     },
   });
 
-  const onSubmit = (val: SignupFromProps): void => {
-    delete val.confirmPassword;
-    signupForm({
-      variables: { input: val },
-    }).catch((err) => err);
-  };
-
   return (
     <Box h="52rem">
       <Flex align={'center'} pt="2.75rem" pb="6.6875rem">
@@ -72,7 +65,14 @@ const SignupForm: FC = () => {
               </Heading>
             </Box>
             <Stack color="#2D3748" fontSize="1rem" fontWeight={500} lineHeight="1.5rem" pos="relative">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form
+                onSubmit={handleSubmit((val: SignupFromProps): void => {
+                  delete val.confirmPassword;
+                  signupForm({
+                    variables: { input: val },
+                  }).catch((err) => err);
+                })}
+              >
                 <FormControl id="firstname" isInvalid={!!errors.firstname}>
                   <FormLabel pt="2.5rem">First name</FormLabel>
                   <Input type="text" placeholder="Enter first name" {...register('firstname')} />
