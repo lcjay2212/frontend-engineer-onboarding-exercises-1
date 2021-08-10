@@ -13,6 +13,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Toast } from '@utils/alert';
 import { SIGN_UP } from 'queries/form.mutation';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,18 +39,10 @@ const SignupForm: FC = () => {
 
   const [signupForm, { loading }] = useMutation(SIGN_UP, {
     onError: (e) => {
-      toast({
-        status: 'error',
-        position: 'top-right',
-        description: e.message,
-      });
+      Toast(toast, 'SIGN-UP', 'error', e.message);
     },
     onCompleted: () => {
-      toast({
-        status: 'success',
-        position: 'top-right',
-        description: 'Sign up success!',
-      });
+      Toast(toast, 'SIGN-UP', 'success', 'Sign up success');
     },
   });
 

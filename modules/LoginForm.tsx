@@ -14,6 +14,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Toast } from '@utils/alert';
 import { LOG_IN } from 'queries/form.mutation';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -37,21 +38,10 @@ const LoginForm: FC = () => {
 
   const [loginUser, { loading }] = useMutation(LOG_IN, {
     onCompleted: () => {
-      // console.log(e.authenticate.token);
-      toast({
-        duration: 1000,
-        status: 'success',
-        position: 'top-right',
-        description: 'Log in success',
-      });
+      Toast(toast, 'LOGIN', 'success', 'Login Success');
     },
     onError: (e) => {
-      toast({
-        duration: 1000,
-        status: 'error',
-        position: 'top-right',
-        description: e.message,
-      });
+      Toast(toast, 'LOGIN', 'error', e.message);
     },
   });
 
