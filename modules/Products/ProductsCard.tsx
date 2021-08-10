@@ -34,7 +34,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
         cursor: 'pointer',
       }}
       transition="0.5s ease-in"
-      w={{ base: '19rem', sm: '23rem', md: '20rem', lg: '16.125rem', xl: '18.125rem' }}
+      w="18.125rem"
       h="26.5rem"
       bg={useColorModeValue('white', 'gray.900')}
       boxShadow={'2xl'}
@@ -50,7 +50,6 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
             src="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
             w="100%"
             h="10.625rem"
-            objectPosition="center center"
             objectFit="cover"
             layout={'fill'}
           />
