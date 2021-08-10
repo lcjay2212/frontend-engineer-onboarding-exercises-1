@@ -87,7 +87,7 @@ const EditProductID: FC = () => {
                 </Box>
               </Flex>
 
-              <Flex flexDirection="column">
+              <Flex flexDirection="column" minW="20px">
                 <Text style={textStyle} pb="0.5rem" id="nice">
                   Title
                 </Text>

@@ -40,7 +40,7 @@ const ProductDetails: FC = () => {
   }));
 
   return (
-    <Box h="52rem" px="7rem" py="9.625rem" maxH="1440px">
+    <Box h="52rem" px={{ base: '1rem', lg: '7rem' }} py="9.625rem" maxH="1440px">
       <BreadCrumbHeaders name={product?.name ?? ''} />
       <Grid
         style={useBreakpointValue({
@@ -55,7 +55,11 @@ const ProductDetails: FC = () => {
               lg: 'initial',
             }}
             objectFit={{ base: 'cover', lg: 'initial' }}
-            h="18.75rem"
+            h={{
+              base: '100%',
+              md: '25rem',
+              lg: '18.75rem',
+            }}
             alt="product-image"
             w={{
               base: '100%',

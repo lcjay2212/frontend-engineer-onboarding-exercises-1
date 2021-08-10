@@ -34,7 +34,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
         cursor: 'pointer',
       }}
       transition="0.5s ease-in"
-      w="18.125rem"
+      w={{ base: '19rem', sm: '23rem', md: '20rem', lg: '16.125rem', xl: '18.125rem' }}
       h="26.5rem"
       bg={useColorModeValue('white', 'gray.900')}
       boxShadow={'2xl'}

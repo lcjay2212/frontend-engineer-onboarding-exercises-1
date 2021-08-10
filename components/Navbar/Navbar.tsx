@@ -43,7 +43,7 @@ const Navbar: FC = () => {
   const path = router.pathname === '/';
 
   return (
-    <Box px={112} h="4rem" maxW="90rem" margin="auto">
+    <Box px={{ base: '1rem', md: '5rem', lg: '7rem' }} h="4rem" maxW="90rem" margin="auto">
       <Flex h="4rem" alignSelf="center">
         <IconButton
           alignSelf="center"
