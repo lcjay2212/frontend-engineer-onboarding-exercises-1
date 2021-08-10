@@ -43,8 +43,14 @@ const Navbar: FC = () => {
   const path = router.pathname === '/';
 
   return (
-    <Box px={{ base: '1rem', md: '5rem', lg: '7rem' }} h="4rem" maxW="90rem" margin="auto">
-      <Flex h="4rem" alignSelf="center">
+    <Box
+      px={{ base: '1rem', md: '5rem', lg: '7rem' }}
+      h="4rem"
+      maxW="90rem"
+      margin="auto"
+      justifyContent="space-between"
+    >
+      <Flex h="4rem" alignSelf="center" justifyContent="space-between">
         <IconButton
           alignSelf="center"
           bg="white"
@@ -91,7 +97,7 @@ const Navbar: FC = () => {
         </Flex>
         {isLoggedIn ? (
           <>
-            <Stack flex={{ base: 1, md: 0 }} justify={'flex-end'} direction={'row'} spacing={4} alignSelf="center">
+            <Stack flex={{ base: 1, md: 0 }} justify="flex-end" direction="row" spacing={4} alignSelf="center">
               <Button style={buttonStyle}>
                 <MenuLink title="Log in" />
               </Button>
