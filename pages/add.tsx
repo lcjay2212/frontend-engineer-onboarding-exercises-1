@@ -19,8 +19,10 @@ import BreadCrumbHeaders from '@components/BreadCrumb';
 import FormComponent from '@components/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
+import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { CREATE_PRODUCT } from 'queries/form.mutation';
+import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { RiImageAddLine } from 'react-icons/ri';
@@ -53,6 +55,7 @@ const AddProduct: FC = () => {
   });
 
   const toast = useToast();
+  const router = useRouter();
 
   const [createProduct, { loading }] = useMutation(CREATE_PRODUCT, {
     onError: (err) => {
@@ -60,7 +63,13 @@ const AddProduct: FC = () => {
     },
     onCompleted: () => {
       Toast(toast, 'ADD-PRODUCT', 'success', 'Add product success');
+      void router.push('/');
     },
+    refetchQueries: [
+      {
+        query: PRODUCTS,
+      },
+    ],
   });
 
   //todo
