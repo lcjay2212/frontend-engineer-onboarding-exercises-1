@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import List from '@components/Products/ProductLists';
+import List from '@modules/Products/ProductLists';
 import { FC } from 'react';
 
 const Home: FC = () => {
