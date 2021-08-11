@@ -1,8 +1,12 @@
+import { useQuery } from '@apollo/client';
 import { Box, Button, Flex, Grid, Icon, Input, Stack, Text, Textarea, useBreakpointValue } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
+import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
+import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { RiImageAddLine } from 'react-icons/ri';
+import { ProductConnection } from 'types/types';
 
 const textStyle = {
   fontWeight: 500,
@@ -20,13 +24,17 @@ const buttonStyle = {
   fontSize: '1.125rem',
 };
 const EditProductID: FC = () => {
-  const data = {
-    id: '1',
-    image: 'https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg',
-    title: 'ReactJS',
-    content:
-      "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  };
+  const router = useRouter();
+  const { id } = router.query;
+  const { data } = useQuery<{ products: ProductConnection }>(PRODUCT_BY_ID, {
+    variables: {
+      filter: {
+        id: { eq: id },
+      },
+    },
+  });
+  const product = data?.products.edges[0].node;
+
   return (
     <Box py="9.625rem">
       <BreadCrumbHeaders name="Edit product" />
@@ -51,7 +59,7 @@ const EditProductID: FC = () => {
                 borderRadius="0.5rem"
                 borderStyle="dashed"
                 pos="relative"
-                backgroundImage={data.image}
+                backgroundImage="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
               >
                 <Box pt="5.375rem" pl="10.71875rem" pr="10.46875rem">
                   <Icon color="white" h="2.25rem" w="2.25rem" as={RiImageAddLine} />
@@ -90,11 +98,11 @@ const EditProductID: FC = () => {
               <Text style={textStyle} pb="0.5rem" id="nice">
                 Title
               </Text>
-              <Input type="text" placeholder="Enter Title" value={data.title} />
+              <Input type="text" placeholder="Enter Title" value={product?.name} />
               <Text style={textStyle} pb="0.5rem" pt="1.25rem">
                 Description
               </Text>
-              <Textarea placeholder="Enter description" h="5rem" value={data.content} />
+              <Textarea placeholder="Enter description" h="5rem" value={product?.description} />
               <Stack d="flex" justify="flex-end" direction="row" pt="2.5rem" spacing={4}>
                 <Button style={buttonStyle}>
                   <Link href="/">Cancel</Link>
