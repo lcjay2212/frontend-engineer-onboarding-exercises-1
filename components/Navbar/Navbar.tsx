@@ -17,9 +17,10 @@ import {
 } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Toast } from '@utils/alert';
-import { logout } from 'hooks/userSlice';
+import useAuth from 'hooks/useAuth';
+import { login, logout } from 'hooks/userSlice';
 import { useRouter } from 'next/dist/client/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { HiOutlineBell } from 'react-icons/hi';
 import MobileDrawer from './Drawer';
 import Logo from './Logo';
@@ -44,6 +45,13 @@ const Navbar: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const path = router.pathname === '/';
   const toast = useToast();
+  const { token } = useAuth();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(login(token));
+    }
+  }, [token, dispatch]);
 
   return (
     <Box
