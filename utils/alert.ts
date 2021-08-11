@@ -1,5 +1,5 @@
 type Status = 'error' | 'success';
-type FormModule = 'LOGIN' | 'SIGN-UP' | 'DELETE-PRODUCT' | 'EDIT-PRODUCT' | 'ADD-PRODUCT';
+type FormModule = 'LOGIN' | 'SIGN-UP' | 'DELETE-PRODUCT' | 'EDIT-PRODUCT' | 'ADD-PRODUCT' | 'LOG-OUT';
 type toast = (q) => string | number | undefined;
 
 export const Toast = (
