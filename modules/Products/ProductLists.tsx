@@ -3,8 +3,8 @@ import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, Flex, Grid, Heading, Skeleton, Stack } from '@chakra-ui/react';
 import Pagination from '@components/Pagination';
 import Card from '@modules/Products/ProductsCard';
+import { useAppSelector } from '@store/hooks';
 import { ProductsProps } from 'helper/interface';
-import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
@@ -21,9 +21,7 @@ const templateColumns = {
 
 const ProductLists: FC = () => {
   const { data, loading } = useQuery<{ products: ProductConnection }>(PRODUCTS);
-  const { isLoggedIn } = useUser((state: UserLogInProps) => ({
-    isLoggedIn: state.isLoggedIn,
-  }));
+  const isLoggedIn = useAppSelector((state) => state.users.isLogged);
 
   const productsLists = data?.products.edges.map((q) => q.node);
 
@@ -34,7 +32,7 @@ const ProductLists: FC = () => {
           <Heading fontWeight="bold" fontSize="1.875rem" color="#2D3748" pb="1.25rem" lineHeight="1.25rem">
             Products
           </Heading>
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <Button
               leftIcon={<AddIcon />}
               bg="#805AD5"

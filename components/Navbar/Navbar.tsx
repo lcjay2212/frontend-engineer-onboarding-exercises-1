@@ -13,8 +13,11 @@ import {
   Stack,
   Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
-import useUser, { UserLogInProps } from 'hooks/useUser';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { Toast } from '@utils/alert';
+import { logout } from 'hooks/userSlice';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
 import { HiOutlineBell } from 'react-icons/hi';
@@ -35,12 +38,12 @@ const menuProfile = {
 };
 
 const Navbar: FC = () => {
-  const { isLoggedIn } = useUser((state: UserLogInProps) => ({
-    isLoggedIn: state.isLoggedIn,
-  }));
+  const isLoggedIn = useAppSelector((state) => state.users.isLogged);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const path = router.pathname === '/';
+  const toast = useToast();
 
   return (
     <Box
@@ -95,7 +98,7 @@ const Navbar: FC = () => {
             <MenuLink title="Products" />
           </Text>
         </Flex>
-        {isLoggedIn ? (
+        {!isLoggedIn ? (
           <>
             <Stack flex={{ base: 1, md: 0 }} justify="flex-end" direction="row" spacing={4} alignSelf="center">
               <Button style={buttonStyle}>
@@ -129,7 +132,15 @@ const Navbar: FC = () => {
               <MenuList>
                 <MenuGroup title="Profile">
                   <MenuItem>My Account</MenuItem>
-                  <MenuItem>Log-out </MenuItem>
+                  <MenuItem
+                    onClick={(): void | '' => {
+                      dispatch(logout());
+                      Toast(toast, 'LOG-OUT', 'success', 'Logout Success');
+                      void router.push('/');
+                    }}
+                  >
+                    Log-out
+                  </MenuItem>
                 </MenuGroup>
               </MenuList>
             </Menu>

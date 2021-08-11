@@ -2,16 +2,19 @@ import { useMutation } from '@apollo/client';
 import { Box, Button, Divider, Flex, Heading, Link, Stack, useToast } from '@chakra-ui/react';
 import FormComponent from '@components/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useAppDispatch } from '@store/hooks';
 import { Toast } from '@utils/alert';
+import { login } from 'hooks/userSlice';
+import { useRouter } from 'next/dist/client/router';
 import { LOG_IN } from 'queries/form.mutation';
 import { FC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { AuthenticateInput } from 'types/types';
 import { UserLogInValidation } from 'validation/validation';
 
-// interface LoginSuccess {
-//   authenticate: { token: string };
-// }
+interface LoginSuccess {
+  authenticate: { token: string };
+}
 
 const LoginForm: FC = () => {
   const {
@@ -21,12 +24,15 @@ const LoginForm: FC = () => {
   } = useForm<FieldValues>({
     resolver: yupResolver(UserLogInValidation),
   });
-
+  const route = useRouter();
+  const dispatch = useAppDispatch();
   const toast = useToast();
 
   const [loginUser, { loading }] = useMutation(LOG_IN, {
-    onCompleted: () => {
+    onCompleted: (e: LoginSuccess) => {
+      dispatch(login(e.authenticate.token));
       Toast(toast, 'LOGIN', 'success', 'Login Success');
+      void route.push('/');
     },
     onError: (e) => {
       Toast(toast, 'LOGIN', 'error', e.message);

@@ -13,9 +13,9 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useAppSelector } from '@store/hooks';
 import DeleteModal from 'components/DeleteModal';
 import { ProductsProps } from 'helper/interface';
-import useUser, { UserLogInProps } from 'hooks/useUser';
 import Link from 'next/link';
 import { FC } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
@@ -23,9 +23,7 @@ import { RiShoppingCartFill } from 'react-icons/ri';
 
 const Card: FC<{ data: ProductsProps }> = ({ data }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
-  const { isLoggedIn } = useUser((state: UserLogInProps) => ({
-    isLoggedIn: state.isLoggedIn,
-  }));
+  const isLoggedIn = useAppSelector((state) => state.users.isLogged);
 
   return (
     <Box
@@ -54,7 +52,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
             layout={'fill'}
           />
         </Link>
-        {!isLoggedIn && (
+        {isLoggedIn && (
           <Box pos="absolute" top={0} right={0} mt="1.25rem" mr="1.25rem">
             <Menu>
               <MenuButton as={IconButton} icon={<FaEllipsisV />} borderRadius="50%" />
