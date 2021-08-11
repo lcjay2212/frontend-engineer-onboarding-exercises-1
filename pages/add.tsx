@@ -22,7 +22,7 @@ import { Toast } from '@utils/alert';
 import Link from 'next/link';
 import { CREATE_PRODUCT } from 'queries/form.mutation';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { RiImageAddLine } from 'react-icons/ri';
 import { CreateProductInput } from 'types/types';
 import { AddProductValidation } from 'validation/validation';
@@ -43,17 +43,12 @@ const buttonStyle = {
   fontSize: '1.125rem',
 };
 
-interface AddProductProps {
-  name: string;
-  description: string;
-}
-
 const AddProduct: FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddProductProps>({
+  } = useForm<FieldValues>({
     resolver: yupResolver(AddProductValidation),
   });
 
@@ -153,7 +148,7 @@ const AddProduct: FC = () => {
                   name="name"
                   register={register}
                   label="Title"
-                  errors={errors}
+                  errorMessage={errors.name?.message}
                   placeholder="Enter title"
                   type="text"
                 />
