@@ -15,7 +15,7 @@ const initialState: ProductsState = {
 };
 
 export const userSlice = createSlice({
-  name: 'counter',
+  name: 'product',
   initialState,
   reducers: {},
 });
