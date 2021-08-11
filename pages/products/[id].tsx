@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
 import DeleteModal from '@components/DeleteModal';
-import useUser, { UserLogInProps } from 'hooks/useUser';
+import { useAppSelector } from '@store/hooks';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { PRODUCT_BY_ID } from 'queries/products.queries';
@@ -35,10 +35,7 @@ const ProductDetails: FC = () => {
   });
   const product = data?.products.edges[0].node;
   const { onClose, isOpen, onOpen } = useDisclosure();
-  const { isLoggedIn } = useUser((state: UserLogInProps) => ({
-    isLoggedIn: state.isLoggedIn,
-  }));
-
+  const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   return (
     <Box py="9.625rem">
       <BreadCrumbHeaders name={product?.name ?? ''} />
@@ -97,7 +94,7 @@ const ProductDetails: FC = () => {
               >
                 {product?.name}
               </Heading>
-              {!isLoggedIn && (
+              {isLoggedIn && (
                 <Stack flex={{ base: 1, md: 0 }} justifyContent="flex-end" direction={'row'} spacing={2} pb="1.3125rem">
                   <Link href={`/edit/${id}`} passHref>
                     <IconButton
