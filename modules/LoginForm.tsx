@@ -1,23 +1,11 @@
 import { useMutation } from '@apollo/client';
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Link,
-  Stack,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, Heading, Link, Stack, useToast } from '@chakra-ui/react';
+import FormComponent from '@components/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
 import { LOG_IN } from 'queries/form.mutation';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { AuthenticateInput } from 'types/types';
 import { UserLogInValidation } from 'validation/validation';
 
@@ -30,7 +18,7 @@ const LoginForm: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthenticateInput>({
+  } = useForm<FieldValues>({
     resolver: yupResolver(UserLogInValidation),
   });
 
@@ -62,20 +50,22 @@ const LoginForm: FC = () => {
                   loginUser({ variables: { input: val } }).catch((err) => err);
                 })}
               >
-                <FormControl id="email" isInvalid={!!errors.emailAddress}>
-                  <FormLabel pt="2.5rem">Email</FormLabel>
-                  <Input type="email" placeholder="email@example.com" {...register('emailAddress')} />
-                  <FormErrorMessage pos="absolute" top="6.5rem">
-                    {errors.emailAddress?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl id="password" isInvalid={!!errors.password}>
-                  <FormLabel pt="1.5rem">Password</FormLabel>
-                  <Input type="password" placeholder="Enter password" {...register('password')} />
-                  <FormErrorMessage pos="absolute" top="5.50rem">
-                    {errors.password?.message}
-                  </FormErrorMessage>
-                </FormControl>
+                <FormComponent
+                  name="emailAddress"
+                  register={register}
+                  label="Email"
+                  errorMessage={errors.emailAddress?.message}
+                  placeholder="email@example.com"
+                  type="email"
+                />
+                <FormComponent
+                  name="password"
+                  register={register}
+                  label="Password"
+                  errorMessage={errors.password?.message}
+                  placeholder="********"
+                  type="password"
+                />
                 <Stack spacing={10}>
                   <Flex justifyContent={'flex-end'}>
                     <Link color="#805AD5" fontSize="0.875rem" fontWeight={600}>

@@ -1,31 +1,24 @@
-import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Input, InputProps } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-interface FormProps {
-  name: string;
+type FormProps = {
   label: string;
-  placeholder: string;
-  type?: string;
-}
+  errorMessage: string;
+  register: UseFormRegister<FieldValues>;
+  name: string;
+} & InputProps;
 
-const FormComponent: FC<FormProps> = ({ type, name, label, placeholder }) => {
-  const {
-    register,
-    formState: { errors },
-  } = useForm();
-
-  return (
-    <>
-      <FormControl id="email" isInvalid={!!errors[name]}>
-        <FormLabel pt="1.25rem">{label}</FormLabel>
-        <Input type={type} placeholder={placeholder} {...register(name)} id={name} />
-        <FormErrorMessage pos="absolute" top="6.50rem">
-          {errors[name]?.message}
-        </FormErrorMessage>
-      </FormControl>
-    </>
-  );
-};
+const FormComponent: FC<FormProps> = ({ errorMessage, label, register, name, ...rest }) => (
+  <FormControl id="email" isInvalid={!!errorMessage}>
+    <FormLabel pt="1.25rem">{label}</FormLabel>
+    <Input {...rest} {...register(name)} id={name} />
+    {errorMessage && (
+      <FormErrorMessage pos="absolute" top="5.25rem">
+        {errorMessage}
+      </FormErrorMessage>
+    )}
+  </FormControl>
+);
 
 export default FormComponent;

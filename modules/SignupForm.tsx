@@ -1,22 +1,11 @@
 import { useMutation } from '@apollo/client';
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Stack,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, Heading, Stack, useToast } from '@chakra-ui/react';
+import FormComponent from '@components/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
 import { SIGN_UP } from 'queries/form.mutation';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { SignupFormValidation } from 'validation/validation';
 interface SignupFromProps {
   firstname: string;
@@ -31,7 +20,7 @@ const SignupForm: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupFromProps>({
+  } = useForm<FieldValues>({
     resolver: yupResolver(SignupFormValidation),
   });
 
@@ -66,7 +55,7 @@ const SignupForm: FC = () => {
                   }).catch((err) => err);
                 })}
               >
-                <FormControl id="firstname" isInvalid={!!errors.firstname}>
+                {/* <FormControl id="firstname" isInvalid={!!errors.firstname}>
                   <FormLabel pt="2.5rem">First name</FormLabel>
                   <Input type="text" placeholder="Enter first name" {...register('firstname')} />
                   <FormErrorMessage pos="absolute" top="6.40rem">
@@ -100,8 +89,47 @@ const SignupForm: FC = () => {
                   <FormErrorMessage pos="absolute" top="5.12rem">
                     {errors.confirmPassword?.message}
                   </FormErrorMessage>
-                </FormControl>
-
+                </FormControl> */}
+                <FormComponent
+                  name="firstname"
+                  register={register}
+                  label="First name"
+                  errorMessage={errors.firstname?.message}
+                  placeholder="Enter first name "
+                  type="text"
+                />
+                <FormComponent
+                  name="lastname"
+                  register={register}
+                  label="Last name"
+                  errorMessage={errors.lastname?.message}
+                  placeholder="Enter last name "
+                  type="text"
+                />
+                <FormComponent
+                  name="emailAddress"
+                  register={register}
+                  label="Email"
+                  errorMessage={errors.emailAddress?.message}
+                  placeholder="email@example.com"
+                  type="email"
+                />
+                <FormComponent
+                  name="password"
+                  register={register}
+                  label="Password"
+                  errorMessage={errors.password?.message}
+                  placeholder="Enter password"
+                  type="password"
+                />
+                <FormComponent
+                  name="confirmPassword"
+                  register={register}
+                  label="Confirm Password"
+                  errorMessage={errors.confirmPassword?.message}
+                  placeholder="Confirm password"
+                  type="password"
+                />
                 <Button
                   maxW="33.75rem"
                   w="100%"
