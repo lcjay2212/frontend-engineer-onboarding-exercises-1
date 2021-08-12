@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { token } from '@utils/getAuthToken';
-
+import { token } from './useAuth';
 export interface UserLoginState {
   isLogged: boolean;
 }
@@ -15,7 +14,7 @@ export const userSlice = createSlice({
   reducers: {
     login: (state: UserLoginState, action: PayloadAction<string>) => {
       state.isLogged = true;
-      token.getAuthToken(action.payload);
+      token.setAuthToken(action.payload);
     },
     logout: (state: UserLoginState) => {
       state.isLogged = false;
