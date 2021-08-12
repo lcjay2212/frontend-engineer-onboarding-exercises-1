@@ -31,6 +31,9 @@ export const PRODUCT_BY_ID = gql`
           id
           name
           description
+          owner {
+            id
+          }
         }
       }
     }
@@ -41,6 +44,7 @@ export const ME = gql`
   query {
     me {
       id
+      emailAddress
     }
   }
 `;

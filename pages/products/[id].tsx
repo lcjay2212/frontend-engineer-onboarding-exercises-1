@@ -16,9 +16,10 @@ import {
 import BreadCrumbHeaders from '@components/BreadCrumb';
 import DeleteModal from '@components/DeleteModal';
 import { useAppSelector } from '@store/hooks';
+import { meProps } from 'helper/interface';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
-import { PRODUCT_BY_ID } from 'queries/products.queries';
+import { ME, PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { RiShoppingCartFill } from 'react-icons/ri';
 import { ProductConnection } from 'types/types';
@@ -27,7 +28,7 @@ const ProductDetails: FC = () => {
   const router = useRouter();
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   const { id } = router.query;
-
+  const { data: meData } = useQuery<meProps>(ME);
   const { data } = useQuery<{ products: ProductConnection }>(PRODUCT_BY_ID, {
     variables: {
       filter: {
@@ -35,8 +36,12 @@ const ProductDetails: FC = () => {
       },
     },
   });
-  const product = data?.products.edges[0].node;
+
+  const ownerId = meData?.me.id;
+  const product = data?.products.edges[0]?.node;
+  const productOwnerId = product ? product.owner.id : '';
   const { onClose, isOpen, onOpen } = useDisclosure();
+  const owner = ownerId === productOwnerId;
 
   return (
     <Box py="9.625rem">
@@ -96,7 +101,7 @@ const ProductDetails: FC = () => {
               >
                 {product?.name}
               </Heading>
-              {isLoggedIn && (
+              {isLoggedIn && owner && (
                 <Stack flex={{ base: 1, md: 0 }} justifyContent="flex-end" direction={'row'} spacing={2} pb="1.3125rem">
                   <Link href={`/edit/${id}`} passHref>
                     <IconButton

@@ -6,3 +6,9 @@ export interface ProductsProps {
   name: string;
   description: string;
 }
+
+export interface meProps {
+  me: {
+    id: string;
+  };
+}

@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import {
   Box,
   Button,
@@ -15,16 +16,20 @@ import {
 } from '@chakra-ui/react';
 import { useAppSelector } from '@store/hooks';
 import DeleteModal from 'components/DeleteModal';
-import { ProductsProps } from 'helper/interface';
+import { meProps, ProductsProps } from 'helper/interface';
 import Link from 'next/link';
+import { ME } from 'queries/products.queries';
 import { FC } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { RiShoppingCartFill } from 'react-icons/ri';
 
 const Card: FC<{ data: ProductsProps }> = ({ data }) => {
+  const { data: meData } = useQuery<meProps>(ME);
   const { onClose, onOpen, isOpen } = useDisclosure();
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
-  // const owner = data.owner.id;
+  const ownerId = data.owner.id;
+  const me = meData?.me.id;
+  const currentOwwner = me === ownerId;
 
   return (
     <Box
@@ -53,7 +58,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
             layout={'fill'}
           />
         </Link>
-        {isLoggedIn && (
+        {currentOwwner && isLoggedIn && (
           <Box pos="absolute" top={0} right={0} mt="1.25rem" mr="1.25rem">
             <Menu>
               <MenuButton as={IconButton} icon={<FaEllipsisV />} borderRadius="50%" />
