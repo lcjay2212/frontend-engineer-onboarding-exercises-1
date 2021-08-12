@@ -35,8 +35,6 @@ export const EDIT_PRODUCT = gql`
 
 export const DELETE_PRODUCT = gql`
   mutation deleteProduct($input: DeleteProductInput!) {
-    deleteProduct(input: $input) {
-      id
-    }
+    deleteProduct(input: $input)
   }
 `;
