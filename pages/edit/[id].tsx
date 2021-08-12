@@ -1,12 +1,29 @@
-import { useQuery } from '@apollo/client';
-import { Box, Button, Flex, Grid, Icon, Input, Stack, Text, Textarea, useBreakpointValue } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Grid,
+  Icon,
+  Input,
+  Stack,
+  Text,
+  Textarea,
+  useBreakpointValue,
+  useToast,
+} from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
+import { Toast } from '@utils/alert';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
-import { PRODUCT_BY_ID } from 'queries/products.queries';
+import { EDIT_PRODUCT } from 'queries/form.mutation';
+import { PRODUCTS, PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 import { RiImageAddLine } from 'react-icons/ri';
-import { ProductConnection } from 'types/types';
+import { ProductConnection, UpdateProductInput } from 'types/types';
 
 const textStyle = {
   fontWeight: 500,
@@ -23,6 +40,7 @@ const buttonStyle = {
   fontWeight: 600,
   fontSize: '1.125rem',
 };
+
 const EditProductID: FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -33,7 +51,24 @@ const EditProductID: FC = () => {
       },
     },
   });
+
+  const { register, handleSubmit } = useForm<FieldValues>();
+
+  const toast = useToast();
   const product = data?.products.edges[0].node;
+  const [editProduct, { loading }] = useMutation(EDIT_PRODUCT, {
+    onError: (err) => {
+      Toast(toast, 'EDIT-PRODUCT', 'error', err.message);
+    },
+    onCompleted: () => {
+      Toast(toast, 'EDIT-PRODUCT', 'success', 'Update success');
+    },
+    refetchQueries: [
+      {
+        query: PRODUCTS,
+      },
+    ],
+  });
 
   return (
     <Box py="9.625rem">
@@ -95,22 +130,49 @@ const EditProductID: FC = () => {
             </Flex>
 
             <Flex flexDirection="column" minW="20px">
-              <Text style={textStyle} pb="0.5rem" id="nice">
-                Title
-              </Text>
-              <Input type="text" placeholder="Enter Title" value={product?.name} />
-              <Text style={textStyle} pb="0.5rem" pt="1.25rem">
-                Description
-              </Text>
-              <Textarea placeholder="Enter description" h="5rem" value={product?.description} />
-              <Stack d="flex" justify="flex-end" direction="row" pt="2.5rem" spacing={4}>
-                <Button style={buttonStyle}>
-                  <Link href="/">Cancel</Link>
-                </Button>
-                <Button bg="#805AD5" colorScheme="purple" color="white" style={buttonStyle}>
-                  Submit
-                </Button>
-              </Stack>
+              <form
+                onSubmit={handleSubmit((val: UpdateProductInput) => {
+                  editProduct({
+                    variables: {
+                      input: { id, body: val },
+                    },
+                  }).catch((err) => err);
+                  void router.push(`/products/${id}`);
+                })}
+              >
+                <FormControl>
+                  <FormLabel style={textStyle} pb="0.5rem">
+                    Title
+                  </FormLabel>
+                  <Input type="text" defaultValue={product?.name} {...register('name')} />
+                </FormControl>
+                <FormControl>
+                  <FormLabel style={textStyle} pb="0.5rem" pt="1.25rem">
+                    Description
+                  </FormLabel>
+                  <Textarea
+                    placeholder="Enter description"
+                    h="5rem"
+                    defaultValue={product?.description}
+                    {...register('description')}
+                  />
+                </FormControl>
+                <Stack d="flex" justify="flex-end" direction="row" pt="2.5rem" spacing={4}>
+                  <Button style={buttonStyle}>
+                    <Link href="/">Cancel</Link>
+                  </Button>
+                  <Button
+                    type="submit"
+                    bg="#805AD5"
+                    colorScheme="purple"
+                    color="white"
+                    style={buttonStyle}
+                    isLoading={loading}
+                  >
+                    Submit
+                  </Button>
+                </Stack>
+              </form>
             </Flex>
           </Grid>
         </Box>

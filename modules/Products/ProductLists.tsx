@@ -22,7 +22,6 @@ const templateColumns = {
 const ProductLists: FC = () => {
   const { data, loading } = useQuery<{ products: ProductConnection }>(PRODUCTS);
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
-
   const productsLists = data?.products.edges.map((q) => q.node);
 
   return (
