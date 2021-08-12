@@ -1,7 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import { useEffect, useState } from 'react';
 
-const useAuth = (): {
+export const useAuth = (): {
   isLoggedIn: () => void;
   token: string;
 } => {
@@ -23,4 +23,7 @@ const useAuth = (): {
   return { isLoggedIn, token };
 };
 
-export default useAuth;
+export const token = {
+  setAuthToken: (bearer: string): void => localStorage.setItem('token', bearer),
+  removeAuthToken: (): void => localStorage.removeItem('token'),
+};

@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { Box, Button, Divider, Flex, Heading, Stack, useToast } from '@chakra-ui/react';
-import FormComponent from '@components/Form';
+import FormComponent from '@components/FormInput/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
 import { SIGN_UP } from 'queries/form.mutation';
@@ -55,41 +55,6 @@ const SignupForm: FC = () => {
                   }).catch((err) => err);
                 })}
               >
-                {/* <FormControl id="firstname" isInvalid={!!errors.firstname}>
-                  <FormLabel pt="2.5rem">First name</FormLabel>
-                  <Input type="text" placeholder="Enter first name" {...register('firstname')} />
-                  <FormErrorMessage pos="absolute" top="6.40rem">
-                    {errors.firstname?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl id="lastname" isInvalid={!!errors.lastname}>
-                  <FormLabel pt="1.25rem">Last name</FormLabel>
-                  <Input type="text" placeholder="Enter last name" {...register('lastname')} />
-                  <FormErrorMessage pos="absolute" top="5.12rem">
-                    {errors.lastname?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl id="emailAddress" isInvalid={!!errors.emailAddress}>
-                  <FormLabel pt="1.25rem">Email</FormLabel>
-                  <Input type="email" placeholder="email@example.com" {...register('emailAddress')} />
-                  <FormErrorMessage pos="absolute" top="5.12rem">
-                    {errors.emailAddress?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl id="password" isInvalid={!!errors.password}>
-                  <FormLabel pt="1.25rem">Password</FormLabel>
-                  <Input type="password" placeholder="Enter password" {...register('password')} />
-                  <FormErrorMessage pos="absolute" top="5.12rem">
-                    {errors.password?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl id="confirmPassword" isInvalid={!!errors.confirmPassword}>
-                  <FormLabel pt="1.25rem">Confirm Password</FormLabel>
-                  <Input type="password" placeholder="Confirm password" {...register('confirmPassword')} />
-                  <FormErrorMessage pos="absolute" top="5.12rem">
-                    {errors.confirmPassword?.message}
-                  </FormErrorMessage>
-                </FormControl> */}
                 <FormComponent
                   name="firstname"
                   register={register}

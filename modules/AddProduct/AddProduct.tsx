@@ -7,16 +7,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Grid,
-  Icon,
-  Input,
   Stack,
-  Text,
   Textarea,
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
-import FormComponent from '@components/Form';
+import FormComponent from '@components/FormInput/Form';
+import InputFile from '@components/FormInput/InputFile';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
 import { useRouter } from 'next/dist/client/router';
@@ -25,7 +23,6 @@ import { CREATE_PRODUCT } from 'queries/form.mutation';
 import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { RiImageAddLine } from 'react-icons/ri';
 import { CreateProductInput } from 'types/types';
 import { AddProductValidation } from 'validation/validation';
 
@@ -91,68 +88,9 @@ const AddProduct: FC = () => {
               })}
             >
               <Flex flexDirection="column" pr="2.5rem">
-                <Box>
-                  <FormControl>
-                    <Stack direction="row">
-                      <FormLabel style={textStyle}>Photo</FormLabel>
-                    </Stack>
-                    <Box
-                      h="16.25rem"
-                      w="23.4375rem"
-                      border="2px"
-                      borderColor="#E5E7EB"
-                      borderRadius="0.5rem"
-                      borderStyle="dashed"
-                      pos="relative"
-                    >
-                      <Box pt="5.375rem" pl="10.71875rem" pr="10.46875rem">
-                        <Icon color="#9CA3AF" h="2.25rem" w="2.25rem" as={RiImageAddLine} />
-                      </Box>
-                      <Stack
-                        spacing={1}
-                        direction="row"
-                        px="5.46875rem"
-                        fontSize="0.875rem"
-                        lineHeight="1.25rem"
-                        fontWeight={500}
-                        textAlign="center"
-                      >
-                        <Text color="#6B46C1">Upload a file</Text>
-                        <Text color="#4B5563">or drag and drop</Text>
-                      </Stack>
-                      <Text textAlign="center" fontWeight={400} fontSize="0.75rem" lineHeight="1rem" color="#6B7280">
-                        PNG, JPG, GIF up to 10MB
-                      </Text>
-                      <Input
-                        id="file"
-                        type="file"
-                        w="100%"
-                        h="100%"
-                        opacity={0}
-                        pos="absolute"
-                        top={0}
-                        cursor="pointer"
-                        accept=".png, .gif, .jpeg"
-                        objectPosition={{
-                          base: 'center center',
-                          lg: 'initial',
-                        }}
-                        objectFit={{ base: 'cover', lg: 'initial' }}
-                      />
-                    </Box>
-                  </FormControl>
-                </Box>
+                <InputFile />
               </Flex>
               <Flex flexDirection="column" minW="20px">
-                {/* <FormControl isInvalid={!!errors.name}>
-                  <FormLabel style={textStyle} id="nice">
-                    Title
-                  </FormLabel>
-                  <Input type="text" placeholder="Enter title" {...register('name')} />
-                  <FormErrorMessage pos="absolute" top="4rem">
-                    {errors.name?.message}
-                  </FormErrorMessage>
-                </FormControl> */}
                 <FormComponent
                   name="name"
                   register={register}

@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { Box, Button, Divider, Flex, Heading, Link, Stack, useToast } from '@chakra-ui/react';
-import FormComponent from '@components/Form';
+import FormComponent from '@components/FormInput/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch } from '@store/hooks';
 import { Toast } from '@utils/alert';

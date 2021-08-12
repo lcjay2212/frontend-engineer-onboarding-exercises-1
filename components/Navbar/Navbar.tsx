@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Toast } from '@utils/alert';
-import useAuth from 'hooks/useAuth';
+import { useAuth } from 'hooks/useAuth';
 import { login, logout } from 'hooks/userSlice';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useEffect } from 'react';

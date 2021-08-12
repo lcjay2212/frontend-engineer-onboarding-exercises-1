@@ -37,7 +37,7 @@ export const PRODUCT_BY_ID = gql`
   }
 `;
 
-export const PRODUCT_OWNER = gql`
+export const ME = gql`
   query {
     me {
       id
