@@ -24,6 +24,7 @@ import { RiShoppingCartFill } from 'react-icons/ri';
 const Card: FC<{ data: ProductsProps }> = ({ data }) => {
   const { onClose, onOpen, isOpen } = useDisclosure();
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
+  // const owner = data.owner.id;
 
   return (
     <Box
@@ -61,7 +62,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
                   <MenuItem>Edit</MenuItem>
                 </Link>
                 <MenuItem onClick={onOpen}>Delete</MenuItem>
-                <DeleteModal onClose={onClose} isOpen={isOpen} />
+                <DeleteModal onClose={onClose} isOpen={isOpen} id={data.id} />
               </MenuList>
             </Menu>
           </Box>

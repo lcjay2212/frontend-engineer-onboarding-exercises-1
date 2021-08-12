@@ -1,4 +1,19 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
+import { useMutation } from '@apollo/client';
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
+import { Toast } from '@utils/alert';
+import { useRouter } from 'next/dist/client/router';
+import { DELETE_PRODUCT } from 'queries/form.mutation';
+import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
 
 const buttonStyle = {
@@ -13,9 +28,27 @@ const buttonStyle = {
 interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
+  id: string;
 }
 
-const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose }) => {
+const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose, id }) => {
+  const router = useRouter();
+  const toast = useToast();
+  const [deleteProduct, { loading }] = useMutation(DELETE_PRODUCT, {
+    onCompleted: () => {
+      Toast(toast, 'DELETE-PRODUCT', 'success', 'Delete product success.');
+    },
+    onError: (err) => {
+      onClose;
+      Toast(toast, 'DELETE-PRODUCT', 'error', err.message);
+    },
+    refetchQueries: [
+      {
+        query: PRODUCTS,
+      },
+    ],
+  });
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -34,7 +67,18 @@ const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose }) => {
             <Button onClick={onClose} style={buttonStyle} mr="0.75rem">
               Cancel
             </Button>
-            <Button color="white" colorScheme="red" bg="#E53E3E" style={buttonStyle}>
+            <Button
+              color="white"
+              colorScheme="red"
+              bg="#E53E3E"
+              style={buttonStyle}
+              isLoading={loading}
+              onClick={(): void => {
+                onClose();
+                deleteProduct({ variables: { input: { id } } }).catch((err) => err);
+                void router.push('/');
+              }}
+            >
               Delete
             </Button>
           </ModalFooter>

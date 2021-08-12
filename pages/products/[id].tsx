@@ -25,7 +25,9 @@ import { ProductConnection } from 'types/types';
 
 const ProductDetails: FC = () => {
   const router = useRouter();
+  const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   const { id } = router.query;
+
   const { data } = useQuery<{ products: ProductConnection }>(PRODUCT_BY_ID, {
     variables: {
       filter: {
@@ -35,7 +37,7 @@ const ProductDetails: FC = () => {
   });
   const product = data?.products.edges[0].node;
   const { onClose, isOpen, onOpen } = useDisclosure();
-  const isLoggedIn = useAppSelector((state) => state.users.isLogged);
+
   return (
     <Box py="9.625rem">
       <BreadCrumbHeaders name={product?.name ?? ''} />
@@ -113,7 +115,7 @@ const ProductDetails: FC = () => {
                     w="3rem"
                     icon={<DeleteIcon fontSize="1.25rem" />}
                   />
-                  <DeleteModal onClose={onClose} isOpen={isOpen} />
+                  <DeleteModal onClose={onClose} isOpen={isOpen} id={product?.id} />
                 </Stack>
               )}
             </Flex>
