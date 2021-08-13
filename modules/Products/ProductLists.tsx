@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, Flex, Grid, Heading, Skeleton, Stack } from '@chakra-ui/react';
 import Pagination from '@components/Pagination';
@@ -7,8 +7,8 @@ import { useAppSelector } from '@store/hooks';
 import { ProductsProps } from 'helper/interface';
 import Link from 'next/link';
 import { PRODUCTS } from 'queries/products.queries';
-import { FC } from 'react';
-import { ProductConnection } from 'types/types';
+import { FC, useEffect, useState } from 'react';
+import { ProductEdge } from 'types/types';
 
 const templateColumns = {
   base: 'repeat(1, 1fr)',
@@ -18,11 +18,53 @@ const templateColumns = {
   xl: 'repeat(3, 1fr)',
   '2xl': 'repeat(4, 1fr)',
 };
-
+interface PageInfoProps {
+  edges: Array<ProductEdge>;
+  pageInfo: {
+    totalCount: number;
+    endCursor: string;
+    startCursor: string;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+}
 const ProductLists: FC = () => {
-  const { data, loading } = useQuery<{ products: ProductConnection }>(PRODUCTS);
+  const [getProducts, { data, loading }] = useLazyQuery<{ products: PageInfoProps }>(PRODUCTS);
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
-  const productsLists = data?.products.edges.map((q) => q.node);
+  const productsLists = data?.products.edges.map((q) => q.node) ?? [];
+  const totalCount = data?.products.pageInfo.totalCount ?? 0;
+  const perPages = totalCount / productsLists.length;
+  const startCursor = data?.products.pageInfo.startCursor;
+  const endCursor = data?.products.pageInfo.endCursor;
+  const [currentPage, setCurrentPage] = useState(1);
+  const hasNextPage = data?.products.pageInfo.hasNextPage;
+  const hasPreviousPage = data?.products.pageInfo.hasPreviousPage;
+
+  const onNext = (): void => {
+    getProducts({
+      variables: {
+        first: 12,
+        after: endCursor,
+      },
+    });
+    setCurrentPage((e) => e + 1);
+  };
+  const onPrevious = (): void => {
+    getProducts({
+      variables: {
+        last: 12,
+        before: startCursor,
+      },
+    });
+  };
+
+  useEffect(() => {
+    getProducts({
+      variables: {
+        first: 12,
+      },
+    });
+  }, [getProducts]);
 
   return (
     <Box py="5.625rem" bg="#F7FAFC">
@@ -49,7 +91,7 @@ const ProductLists: FC = () => {
         <Divider mb="3.125rem" border={'1px solid #E2E8F0'} />
         {loading ? (
           <Grid templateColumns={templateColumns} gap={6}>
-            {Array.from({ length: 20 }).map((_, i) => (
+            {Array.from({ length: 2 }).map((_, i) => (
               <Stack key={i}>
                 <Skeleton h="26.5rem" pb="1" />
               </Stack>
@@ -57,12 +99,19 @@ const ProductLists: FC = () => {
           </Grid>
         ) : (
           <Grid templateColumns={templateColumns} gap={6} justifyContent="space-around" alignSelf="center">
-            {productsLists?.length && productsLists.map((q: ProductsProps, i: number) => <Card key={i} data={q} />)}
+            {productsLists.length && productsLists.map((q: ProductsProps, i: number) => <Card key={i} data={q} />)}
           </Grid>
         )}
       </Flex>
       <Divider mt="2.5rem" border={'1px solid #E2E8F0'} />
-      <Pagination />
+      <Pagination
+        pages={perPages}
+        onNextPage={onNext}
+        onPreviousPage={onPrevious}
+        currentPage={currentPage}
+        hasPreviousPage={hasPreviousPage ?? false}
+        hasNextPage={hasNextPage ?? false}
+      />
     </Box>
   );
 };

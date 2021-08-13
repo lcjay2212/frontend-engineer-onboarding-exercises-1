@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const PRODUCTS = gql`
-  query {
-    products(first: 50) {
+  query products($first: Int, $after: Binary, $last: Int, $before: Binary) {
+    products(first: $first, after: $after, last: $last, before: $before) {
       edges {
         node {
           id
@@ -18,6 +18,8 @@ export const PRODUCTS = gql`
         totalCount
         hasNextPage
         hasPreviousPage
+        endCursor
+        startCursor
       }
     }
   }
