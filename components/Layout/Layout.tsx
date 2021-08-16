@@ -10,7 +10,7 @@ const Layout: FC = ({ children }) => {
     <Box>
       <Navbar />
       <Box bg="#F7FAFC" borderTop="1px" borderColor="gray.300">
-        <Box m="auto" maxW="90rem" w="full" minH="100vh" px="6.25rem">
+        <Box m="auto" maxW="90rem" w="full" minH="100vh" px={{ base: '2rem', sm: '5rem', lg: '6.25rem' }}>
           {children}
         </Box>
       </Box>

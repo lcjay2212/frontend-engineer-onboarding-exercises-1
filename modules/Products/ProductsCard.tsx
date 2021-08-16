@@ -77,7 +77,7 @@ const Card: FC<{ data: ProductsProps }> = ({ data }) => {
       <Stack>
         <Link href={`/products/${data.id}`} passHref>
           <Box>
-            <Text color="#000000" fontWeight="bold" fontSize="1.125rem" h="1.75rem" w="15.625rem">
+            <Text isTruncated color="#000000" fontWeight="bold" fontSize="1.125rem" h="1.75rem" w="15.625rem">
               {data.name}
             </Text>
             <Text fontSize="1rem" h="7.5rem" w="15.625rem" color="#374151" lineHeight="1.5rem">

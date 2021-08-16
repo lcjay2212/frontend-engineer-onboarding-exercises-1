@@ -16,20 +16,21 @@ const InputFile: FC = () => (
     </Stack>
     <Box
       h="16.25rem"
-      w="23.4375rem"
+      w={{ base: '17rem', lg: '23.4375rem' }}
       border="2px"
       borderColor="#E5E7EB"
       borderRadius="0.5rem"
       borderStyle="dashed"
       pos="relative"
+      alignSelf="center"
     >
-      <Box pt="5.375rem" pl="10.71875rem" pr="10.46875rem">
+      <Box pt="5.375rem" px={{ base: '7.5rem', lg: '10.71875rem' }}>
         <Icon color="#9CA3AF" h="2.25rem" w="2.25rem" as={RiImageAddLine} />
       </Box>
       <Stack
         spacing={1}
         direction="row"
-        px="5.46875rem"
+        px={{ base: '2.25rem', lg: '5.46875rem' }}
         fontSize="0.875rem"
         lineHeight="1.25rem"
         fontWeight={500}

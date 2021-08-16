@@ -81,7 +81,7 @@ const AddProduct: FC = () => {
                 md: { gridTemplateRows: '1fr 1fr' },
               })}
             >
-              <Flex flexDirection="column" pr="2.5rem">
+              <Flex flexDirection="column" pr={{ base: 0, lg: '2.5rem' }}>
                 <InputFile />
               </Flex>
               <Flex flexDirection="column" minW="20px">
