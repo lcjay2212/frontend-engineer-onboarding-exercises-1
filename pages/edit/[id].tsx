@@ -5,15 +5,13 @@ import {
   FormControl,
   FormLabel,
   Grid,
-  Icon,
   Input,
-  Stack,
-  Text,
   Textarea,
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
+import InputFile from '@components/FormInput/InputFile';
 import SubmitAndCancelBtn from '@components/SubmitButton';
 import { Toast } from '@utils/alert';
 import { useRouter } from 'next/dist/client/router';
@@ -21,7 +19,6 @@ import { EDIT_PRODUCT } from 'queries/form.mutation';
 import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { RiImageAddLine } from 'react-icons/ri';
 import { ProductConnection, UpdateProductInput } from 'types/types';
 
 const textStyle = {
@@ -68,51 +65,7 @@ const EditProductID: FC = () => {
             })}
           >
             <Flex flexDirection="column" pr="2.5rem">
-              <Text style={textStyle} pb="0.5rem">
-                Photo
-              </Text>
-
-              <Box
-                h="16.25rem"
-                w="23.4375rem"
-                border="2px"
-                borderColor="#E5E7EB"
-                borderRadius="0.5rem"
-                borderStyle="dashed"
-                pos="relative"
-                backgroundImage="https://images.pond5.com/professional-it-programer-working-data-footage-103271395_iconl.jpeg"
-              >
-                <Box pt="5.375rem" pl="10.71875rem" pr="10.46875rem">
-                  <Icon color="white" h="2.25rem" w="2.25rem" as={RiImageAddLine} />
-                </Box>
-                <Stack
-                  spacing={0.5}
-                  direction="row"
-                  px="81.5"
-                  fontSize="0.875rem"
-                  lineHeight="1.25rem"
-                  fontWeight={500}
-                  textAlign="center"
-                >
-                  <Text color="#6B46C1" bg="white" borderRadius="6px" w="6rem" h="1.25rem">
-                    Upload a file
-                  </Text>
-                  <Text color="white">or drag and drop</Text>
-                </Stack>
-                <Text textAlign="center" fontWeight={400} fontSize="0.75rem" lineHeight="1rem" color="white">
-                  PNG, JPG, GIF up to 10MB
-                </Text>
-                <Input
-                  type="file"
-                  w="100%"
-                  h="100%"
-                  opacity={0}
-                  pos="absolute"
-                  top={0}
-                  cursor="pointer"
-                  accept="image/x-png,image/gif,image/jpeg"
-                />
-              </Box>
+              <InputFile />
             </Flex>
 
             <Flex flexDirection="column" minW="20px">
