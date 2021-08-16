@@ -33,14 +33,12 @@ const ProductLists: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   const productsLists = data?.products.edges.map((q) => q.node) ?? [];
   const totalCount = data?.products.pageInfo.totalCount ?? 0;
-  // const perPages = totalCount / productsLists.length;
-  const perPages = Math.ceil(totalCount / productsLists.length);
+  const perPages = Math.ceil(totalCount / 12);
   const startCursor = data?.products.pageInfo.startCursor;
   const endCursor = data?.products.pageInfo.endCursor;
   const [currentPage, setCurrentPage] = useState(1);
   const hasNextPage = data?.products.pageInfo.hasNextPage;
   const hasPreviousPage = data?.products.pageInfo.hasPreviousPage;
-  console.log(perPages);
 
   const onNext = (): void => {
     getProducts({
