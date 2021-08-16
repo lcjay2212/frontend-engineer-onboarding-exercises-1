@@ -15,6 +15,7 @@ import { useRouter } from 'next/dist/client/router';
 import { DELETE_PRODUCT } from 'queries/form.mutation';
 import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
+import { DeleteProductInput } from 'types/types';
 
 const buttonStyle = {
   width: '83px',
@@ -34,7 +35,7 @@ interface DeleteModalProps {
 const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose, id }) => {
   const router = useRouter();
   const toast = useToast();
-  const [deleteProduct, { loading }] = useMutation(DELETE_PRODUCT, {
+  const [deleteProduct, { loading }] = useMutation<DeleteProductInput>(DELETE_PRODUCT, {
     onCompleted: () => {
       Toast(toast, 'DELETE-PRODUCT', 'success', 'Delete product success.');
     },
