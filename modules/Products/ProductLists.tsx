@@ -33,12 +33,14 @@ const ProductLists: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   const productsLists = data?.products.edges.map((q) => q.node) ?? [];
   const totalCount = data?.products.pageInfo.totalCount ?? 0;
+  // const perPages = totalCount / productsLists.length;
   const perPages = Math.ceil(totalCount / productsLists.length);
   const startCursor = data?.products.pageInfo.startCursor;
   const endCursor = data?.products.pageInfo.endCursor;
   const [currentPage, setCurrentPage] = useState(1);
   const hasNextPage = data?.products.pageInfo.hasNextPage;
   const hasPreviousPage = data?.products.pageInfo.hasPreviousPage;
+  console.log(perPages);
 
   const onNext = (): void => {
     getProducts({
@@ -49,6 +51,7 @@ const ProductLists: FC = () => {
     });
     setCurrentPage((e) => e + 1);
   };
+
   const onPrevious = (): void => {
     getProducts({
       variables: {
@@ -56,6 +59,7 @@ const ProductLists: FC = () => {
         before: startCursor,
       },
     });
+    setCurrentPage((e) => e - 1);
   };
 
   useEffect(() => {
