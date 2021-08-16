@@ -60,16 +60,9 @@ const AddProduct: FC = () => {
     },
     onCompleted: () => {
       Toast(toast, 'ADD-PRODUCT', 'success', 'Add product success');
-      void router.push('/');
     },
-    refetchQueries: [
-      {
-        query: PRODUCTS,
-      },
-    ],
+    refetchQueries: [PRODUCTS, 'products'],
   });
-
-  //todo
 
   return (
     <Box py="9.625rem">
@@ -79,6 +72,7 @@ const AddProduct: FC = () => {
           <form
             onSubmit={handleSubmit((val: CreateProductInput): void => {
               createProduct({ variables: { input: val } }).catch((err) => err);
+              void router.push('/');
             })}
           >
             <Grid
