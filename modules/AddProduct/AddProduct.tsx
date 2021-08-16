@@ -31,15 +31,6 @@ const textStyle = {
   color: '#374151',
 };
 
-const buttonStyle = {
-  height: '3rem',
-  width: '10.96875rem',
-  borderRadius: '0.375rem',
-  lineHeight: '1.75rem',
-  fontWeight: 600,
-  fontSize: '1.125rem',
-};
-
 const AddProduct: FC = () => {
   const {
     register,
