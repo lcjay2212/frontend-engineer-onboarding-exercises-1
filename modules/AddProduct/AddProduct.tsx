@@ -1,13 +1,11 @@
 import { useMutation } from '@apollo/client';
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Grid,
-  Stack,
   Textarea,
   useBreakpointValue,
   useToast,
@@ -15,10 +13,10 @@ import {
 import BreadCrumbHeaders from '@components/BreadCrumb';
 import FormComponent from '@components/FormInput/Form';
 import InputFile from '@components/FormInput/InputFile';
+import SubmitAndCancelBtn from '@components/SubmitButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
 import { useRouter } from 'next/dist/client/router';
-import Link from 'next/link';
 import { CREATE_PRODUCT } from 'queries/form.mutation';
 import { PRODUCTS } from 'queries/products.queries';
 import { FC } from 'react';
@@ -102,21 +100,7 @@ const AddProduct: FC = () => {
                     {errors.description?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <Stack d="flex" justify="flex-end" direction="row" pt="2.5rem" spacing={4}>
-                  <Button style={buttonStyle}>
-                    <Link href="/">Cancel</Link>
-                  </Button>
-                  <Button
-                    bg="#805AD5"
-                    colorScheme="purple"
-                    color="white"
-                    style={buttonStyle}
-                    type="submit"
-                    isLoading={loading}
-                  >
-                    Submit
-                  </Button>
-                </Stack>
+                <SubmitAndCancelBtn isLoading={loading} />
               </Flex>
             </Grid>
           </form>

@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormLabel,
@@ -15,9 +14,9 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
+import SubmitAndCancelBtn from '@components/SubmitButton';
 import { Toast } from '@utils/alert';
 import { useRouter } from 'next/dist/client/router';
-import Link from 'next/link';
 import { EDIT_PRODUCT } from 'queries/form.mutation';
 import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
@@ -30,15 +29,6 @@ const textStyle = {
   fontSize: '1rem',
   lineHeight: '1.5rem',
   color: '#374151',
-};
-
-const buttonStyle = {
-  height: '3rem',
-  width: '10.96875rem',
-  borderRadius: '0.375rem',
-  lineHeight: '1.75rem',
-  fontWeight: 600,
-  fontSize: '1.125rem',
 };
 
 const EditProductID: FC = () => {
@@ -153,21 +143,7 @@ const EditProductID: FC = () => {
                     {...register('description')}
                   />
                 </FormControl>
-                <Stack d="flex" justify="flex-end" direction="row" pt="2.5rem" spacing={4}>
-                  <Button style={buttonStyle}>
-                    <Link href="/">Cancel</Link>
-                  </Button>
-                  <Button
-                    type="submit"
-                    bg="#805AD5"
-                    colorScheme="purple"
-                    color="white"
-                    style={buttonStyle}
-                    isLoading={loading}
-                  >
-                    Submit
-                  </Button>
-                </Stack>
+                <SubmitAndCancelBtn isLoading={loading} />
               </form>
             </Flex>
           </Grid>
