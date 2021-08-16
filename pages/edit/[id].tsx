@@ -19,7 +19,7 @@ import { Toast } from '@utils/alert';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { EDIT_PRODUCT } from 'queries/form.mutation';
-import { PRODUCTS, PRODUCT_BY_ID } from 'queries/products.queries';
+import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { RiImageAddLine } from 'react-icons/ri';
@@ -65,7 +65,12 @@ const EditProductID: FC = () => {
     },
     refetchQueries: [
       {
-        query: PRODUCTS,
+        query: PRODUCT_BY_ID,
+        variables: {
+          filter: {
+            id: { eq: id },
+          },
+        },
       },
     ],
   });
