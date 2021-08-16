@@ -63,16 +63,7 @@ const EditProductID: FC = () => {
     onCompleted: () => {
       Toast(toast, 'EDIT-PRODUCT', 'success', 'Update success');
     },
-    refetchQueries: [
-      {
-        query: PRODUCT_BY_ID,
-        variables: {
-          filter: {
-            id: { eq: id },
-          },
-        },
-      },
-    ],
+    refetchQueries: [PRODUCT_BY_ID, ' products'],
   });
 
   return (
