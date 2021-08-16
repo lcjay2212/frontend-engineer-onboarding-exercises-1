@@ -50,7 +50,7 @@ const ProductDetails: FC = () => {
         <Grid
           style={useBreakpointValue({
             lg: { gridTemplateColumns: '1fr 2fr' },
-            md: { gridTemplateRows: '1fr 1fr' },
+            md: { gridTemplateRows: '1fr 2fr' },
           })}
         >
           <Flex flexDirection="column">

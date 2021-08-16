@@ -42,11 +42,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ isOpen, onClose, id }) => {
       onClose;
       Toast(toast, 'DELETE-PRODUCT', 'error', err.message);
     },
-    refetchQueries: [
-      {
-        query: PRODUCTS,
-      },
-    ],
+    refetchQueries: [PRODUCTS, 'products'],
   });
 
   return (

@@ -18,7 +18,7 @@ const templateColumns = {
   xl: 'repeat(3, 1fr)',
   '2xl': 'repeat(4, 1fr)',
 };
-interface PageInfoProps {
+interface ProductListsProps {
   edges: Array<ProductEdge>;
   pageInfo: {
     totalCount: number;
@@ -29,7 +29,7 @@ interface PageInfoProps {
   };
 }
 const ProductLists: FC = () => {
-  const [getProducts, { data, loading }] = useLazyQuery<{ products: PageInfoProps }>(PRODUCTS);
+  const [getProducts, { data, loading }] = useLazyQuery<{ products: ProductListsProps }>(PRODUCTS);
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   const productsLists = data?.products.edges.map((q) => q.node) ?? [];
   const totalCount = data?.products.pageInfo.totalCount ?? 0;
