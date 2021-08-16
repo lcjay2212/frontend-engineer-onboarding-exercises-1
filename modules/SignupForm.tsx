@@ -3,6 +3,7 @@ import { Box, Button, Divider, Flex, Heading, Stack, useToast } from '@chakra-ui
 import FormComponent from '@components/FormInput/Form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Toast } from '@utils/alert';
+import { useRouter } from 'next/dist/client/router';
 import { SIGN_UP } from 'queries/form.mutation';
 import { FC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -16,6 +17,7 @@ interface SignupFromProps {
 }
 
 const SignupForm: FC = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -53,6 +55,7 @@ const SignupForm: FC = () => {
                   signupForm({
                     variables: { input: val },
                   }).catch((err) => err);
+                  void router.push('/');
                 })}
               >
                 <FormComponent
