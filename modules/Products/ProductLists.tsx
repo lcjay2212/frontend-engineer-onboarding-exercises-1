@@ -33,7 +33,7 @@ const ProductLists: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.users.isLogged);
   const productsLists = data?.products.edges.map((q) => q.node) ?? [];
   const totalCount = data?.products.pageInfo.totalCount ?? 0;
-  const perPages = totalCount / productsLists.length;
+  const perPages = Math.ceil(totalCount / productsLists.length);
   const startCursor = data?.products.pageInfo.startCursor;
   const endCursor = data?.products.pageInfo.endCursor;
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,7 +70,7 @@ const ProductLists: FC = () => {
     <Box py="5.625rem" bg="#F7FAFC">
       <Flex direction="column">
         <Flex justifyContent="space-between" pb="8px">
-          <Heading fontWeight="bold" fontSize="1.875rem" color="#2D3748" pb="1.25rem" lineHeight="1.25rem">
+          <Heading fontWeight="bold" fon tSize="1.875rem" color="#2D3748" pb="1.25rem" lineHeight="1.25rem">
             Products
           </Heading>
           {isLoggedIn && (
@@ -91,7 +91,7 @@ const ProductLists: FC = () => {
         <Divider mb="3.125rem" border={'1px solid #E2E8F0'} />
         {loading ? (
           <Grid templateColumns={templateColumns} gap={6}>
-            {Array.from({ length: 2 }).map((_, i) => (
+            {Array.from({ length: 12 }).map((_, i) => (
               <Stack key={i}>
                 <Skeleton h="26.5rem" pb="1" />
               </Stack>
