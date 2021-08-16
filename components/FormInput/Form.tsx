@@ -7,12 +7,13 @@ type FormProps = {
   errorMessage: string;
   register: UseFormRegister<FieldValues>;
   name: string;
+  defaultValue?: string;
 } & InputProps;
 
-const FormComponent: FC<FormProps> = ({ errorMessage, label, register, name, ...rest }) => (
+const FormComponent: FC<FormProps> = ({ errorMessage, label, register, name, defaultValue, ...rest }) => (
   <FormControl id="email" isInvalid={!!errorMessage}>
     <FormLabel pt="1.25rem">{label}</FormLabel>
-    <Input {...rest} {...register(name)} id={name} />
+    <Input {...rest} defaultValue={defaultValue} {...register(name)} id={name} />
     {errorMessage && (
       <FormErrorMessage pos="absolute" top="5.25rem">
         {errorMessage}

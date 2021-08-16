@@ -1,16 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
-import {
-  Box,
-  Flex,
-  FormControl,
-  FormLabel,
-  Grid,
-  Input,
-  Textarea,
-  useBreakpointValue,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Flex, Grid, useBreakpointValue, useToast } from '@chakra-ui/react';
 import BreadCrumbHeaders from '@components/BreadCrumb';
+import AddEditForm from '@components/FormInput/AddEditForm';
 import InputFile from '@components/FormInput/InputFile';
 import SubmitAndCancelBtn from '@components/SubmitButton';
 import { Toast } from '@utils/alert';
@@ -18,15 +9,15 @@ import { useRouter } from 'next/dist/client/router';
 import { EDIT_PRODUCT } from 'queries/form.mutation';
 import { PRODUCT_BY_ID } from 'queries/products.queries';
 import { FC } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { ProductConnection, UpdateProductInput } from 'types/types';
 
-const textStyle = {
-  fontWeight: 500,
-  fontSize: '1rem',
-  lineHeight: '1.5rem',
-  color: '#374151',
-};
+// const textStyle = {
+//   fontWeight: 500,
+//   fontSize: '1rem',
+//   lineHeight: '1.5rem',
+//   color: '#374151',
+// };
 
 const EditProductID: FC = () => {
   const router = useRouter();
@@ -39,7 +30,11 @@ const EditProductID: FC = () => {
     },
   });
 
-  const { register, handleSubmit } = useForm<FieldValues>();
+  const methods = useForm<FieldValues>();
+  const {
+    //  register,
+    handleSubmit,
+  } = methods;
 
   const toast = useToast();
   const product = data?.products.edges[0].node;
@@ -67,37 +62,22 @@ const EditProductID: FC = () => {
             <Flex flexDirection="column" pr="2.5rem">
               <InputFile />
             </Flex>
-
             <Flex flexDirection="column" minW="20px">
-              <form
-                onSubmit={handleSubmit((val: UpdateProductInput) => {
-                  editProduct({
-                    variables: {
-                      input: { id, body: val },
-                    },
-                  }).catch((err) => err);
-                  void router.push(`/products/${id}`);
-                })}
-              >
-                <FormControl>
-                  <FormLabel style={textStyle} pb="0.5rem">
-                    Title
-                  </FormLabel>
-                  <Input type="text" defaultValue={product?.name} {...register('name')} />
-                </FormControl>
-                <FormControl>
-                  <FormLabel style={textStyle} pb="0.5rem" pt="1.25rem">
-                    Description
-                  </FormLabel>
-                  <Textarea
-                    placeholder="Enter description"
-                    h="5rem"
-                    defaultValue={product?.description}
-                    {...register('description')}
-                  />
-                </FormControl>
-                <SubmitAndCancelBtn isLoading={loading} />
-              </form>
+              <FormProvider {...methods}>
+                <form
+                  onSubmit={handleSubmit((val: UpdateProductInput) => {
+                    editProduct({
+                      variables: {
+                        input: { id, body: val },
+                      },
+                    }).catch((err) => err);
+                    void router.push(`/products/${id}`);
+                  })}
+                >
+                  <AddEditForm product={product} />
+                  <SubmitAndCancelBtn isLoading={loading} />
+                </form>
+              </FormProvider>
             </Flex>
           </Grid>
         </Box>
