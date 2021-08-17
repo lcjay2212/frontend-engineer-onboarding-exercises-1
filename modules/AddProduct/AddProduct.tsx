@@ -34,34 +34,34 @@ const AddProduct: FC = () => {
     refetchQueries: [PRODUCTS, 'products'],
   });
 
+  const onSubmit = (val: CreateProductInput): void => {
+    createProduct({ variables: { input: val } }).catch((err) => err);
+    void router.push('/');
+  };
+
   return (
     <Box py="9.625rem">
       <BreadCrumbHeaders name="Add product" />
       <Flex justifyContent="center" bg="white" borderRadius="0.5rem" boxShadow="base" m="auto">
         <Box p="1.875rem">
-          <FormProvider {...methods}>
-            <form
-              onSubmit={handleSubmit((val: CreateProductInput): void => {
-                createProduct({ variables: { input: val } }).catch((err) => err);
-                void router.push('/');
-              })}
-            >
-              <Grid
-                style={useBreakpointValue({
-                  lg: { gridTemplateColumns: '1fr 2fr' },
-                  md: { gridTemplateRows: '1fr 1fr' },
-                })}
-              >
-                <Flex flexDirection="column" pr={{ base: 0, lg: '2.5rem' }}>
-                  <InputFile />
-                </Flex>
+          <Grid
+            style={useBreakpointValue({
+              lg: { gridTemplateColumns: '1fr 2fr' },
+              md: { gridTemplateRows: '1fr 1fr' },
+            })}
+          >
+            <Flex flexDirection="column" pr={{ base: 0, lg: '2.5rem' }}>
+              <InputFile />
+            </Flex>
+            <FormProvider {...methods}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Flex flexDirection="column" minW="20px">
                   <AddEditForm />
                   <SubmitAndCancelBtn isLoading={loading} />
                 </Flex>
-              </Grid>
-            </form>
-          </FormProvider>
+              </form>
+            </FormProvider>
+          </Grid>
         </Box>
       </Flex>
     </Box>

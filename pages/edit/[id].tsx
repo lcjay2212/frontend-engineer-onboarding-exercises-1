@@ -12,13 +12,6 @@ import { FC } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { ProductConnection, UpdateProductInput } from 'types/types';
 
-// const textStyle = {
-//   fontWeight: 500,
-//   fontSize: '1rem',
-//   lineHeight: '1.5rem',
-//   color: '#374151',
-// };
-
 const EditProductID: FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -31,10 +24,7 @@ const EditProductID: FC = () => {
   });
 
   const methods = useForm<FieldValues>();
-  const {
-    //  register,
-    handleSubmit,
-  } = methods;
+  const { handleSubmit } = methods;
 
   const toast = useToast();
   const product = data?.products.edges[0].node;
@@ -47,6 +37,15 @@ const EditProductID: FC = () => {
     },
     refetchQueries: [PRODUCT_BY_ID, ' products'],
   });
+
+  const onSubmitUpdate = (val: UpdateProductInput): void => {
+    editProduct({
+      variables: {
+        input: { id, body: val },
+      },
+    }).catch((err) => err);
+    void router.push(`/products/${id}`);
+  };
 
   return (
     <Box py="9.625rem">
@@ -64,16 +63,7 @@ const EditProductID: FC = () => {
             </Flex>
             <Flex flexDirection="column" minW="20px">
               <FormProvider {...methods}>
-                <form
-                  onSubmit={handleSubmit((val: UpdateProductInput) => {
-                    editProduct({
-                      variables: {
-                        input: { id, body: val },
-                      },
-                    }).catch((err) => err);
-                    void router.push(`/products/${id}`);
-                  })}
-                >
+                <form onSubmit={handleSubmit(onSubmitUpdate)}>
                   <AddEditForm product={product} />
                   <SubmitAndCancelBtn isLoading={loading} />
                 </form>
